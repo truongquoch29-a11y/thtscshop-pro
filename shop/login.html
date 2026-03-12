@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Đăng nhập</title>
+</head>
+
+<body>
+
+<h2>Đăng nhập</h2>
+
+<input id="user" placeholder="Tên tài khoản">
+<br><br>
+<input id="pass" type="password" placeholder="Mật khẩu">
+<br><br>
+
+<button onclick="login()">Đăng nhập</button>
+
+<script>
+
+function login(){
+
+let user = document.getElementById("user").value
+let pass = document.getElementById("pass").value
+
+let saved = localStorage.getItem(user)
+
+if(saved == pass){
+
+localStorage.setItem("login",user)
+
+location.href="nap.html"
+
+}else{
+
+alert("Sai tài khoản")
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
