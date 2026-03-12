@@ -97,6 +97,45 @@ font-size:12px;
 border:1px solid rgba(255,255,255,0.25);
 }
 
+/* popup */
+
+.popup{
+position:fixed;
+left:50%;
+bottom:100px;
+transform:translateX(-50%) translateY(40px);
+background:#111827;
+color:white;
+padding:14px 18px;
+border-radius:12px;
+display:flex;
+align-items:center;
+gap:10px;
+font-size:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
+opacity:0;
+pointer-events:none;
+transition:all 0.4s ease;
+z-index:999;
+}
+
+.popup.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.popup.success{
+border-left:4px solid #22c55e;
+}
+
+.popup.error{
+border-left:4px solid #ef4444;
+}
+
+#popupIcon{
+font-size:18px;
+}
+
 </style>
 
 </head>
@@ -131,7 +170,38 @@ border:1px solid rgba(255,255,255,0.25);
 
 </footer>
 
+<div id="popup" class="popup">
+<span id="popupIcon">⚠️</span>
+<span id="popupText"></span>
+</div>
+
 <script>
+
+function showPopup(text,type){
+
+let p=document.getElementById("popup")
+let icon=document.getElementById("popupIcon")
+let txt=document.getElementById("popupText")
+
+txt.innerText=text
+
+p.classList.remove("success","error")
+
+if(type==="success"){
+icon.innerText="✅"
+p.classList.add("success")
+}else{
+icon.innerText="⚠️"
+p.classList.add("error")
+}
+
+p.classList.add("show")
+
+setTimeout(()=>{
+p.classList.remove("show")
+},3000)
+
+}
 
 function login(){
 
@@ -144,11 +214,15 @@ if(saved===pass){
 
 localStorage.setItem("login",user)
 
+showPopup("Đăng nhập thành công","success")
+
+setTimeout(()=>{
 location.href="shop.html"
+},1000)
 
 }else{
 
-alert("Sai tài khoản")
+showPopup("Sai tài khoản","error")
 
 }
 
