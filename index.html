@@ -153,45 +153,32 @@ display:flex;
 align-items:center;
 gap:10px;
 font-size:14px;
-opacity:0;
-transform:translateX(70px);
-animation:popupIn 0.8s ease forwards 0.3s,
-popupStay 3.9s linear forwards 1.1s,
-popupOut 0.8s ease-in forwards 5s;
+animation:popup 6s ease forwards;
 z-index:50;
 }
 
-@keyframes popupIn{
+@keyframes popup{
+
 0%{
 opacity:0;
 transform:translateX(70px);
 }
-100%{
+
+10%{
 opacity:1;
 transform:translateX(0);
-}
 }
 
-@keyframes popupStay{
-0%{
+85%{
 opacity:1;
 transform:translateX(0);
-}
-100%{
-opacity:1;
-transform:translateX(0);
-}
 }
 
-@keyframes popupOut{
-0%{
-opacity:1;
-transform:translateX(0);
-}
 100%{
 opacity:0;
 transform:translateX(70px);
 }
+
 }
 
 .popup.hide{
