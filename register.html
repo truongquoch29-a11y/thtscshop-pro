@@ -3,27 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <title>Tạo tài khoản</title>
+
+<style>
+
+body{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#0f172a;
+color:white;
+font-family:Arial;
+}
+
+.box{
+background:#1e293b;
+padding:40px;
+border-radius:15px;
+width:300px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#22c55e;
+border:none;
+border-radius:25px;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#16a34a;
+}
+
+</style>
+
 </head>
 
 <body>
 
+<div class="box">
+
 <h2>Tạo tài khoản</h2>
 
 <input id="user" placeholder="Tên tài khoản">
-<br><br>
+
 <input id="pass" type="password" placeholder="Mật khẩu">
-<br><br>
 
 <button onclick="register()">Tạo</button>
+
+</div>
 
 <script>
 
 function register(){
 
-let user = document.getElementById("user").value
-let pass = document.getElementById("pass").value
+let user=document.getElementById("user").value
+let pass=document.getElementById("pass").value
 
-localStorage.setItem(user,pass)
+localStorage.setItem("acc_"+user,pass)
 
 alert("Tạo tài khoản thành công")
 
