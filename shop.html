@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Shop Acc</title>
+
+<style>
+
+body{
+background:#0f172a;
+color:white;
+font-family:Arial;
+padding:40px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+margin:20px 0;
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+button{
+padding:10px 20px;
+background:#00b4ff;
+border:none;
+border-radius:20px;
+color:white;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Shop Acc</h1>
+
+<p id="hello"></p>
+
+<div class="card">
+<h3>Acc Game 1</h3>
+<p>Giá: 50.000</p>
+<button>Mua</button>
+</div>
+
+<div class="card">
+<h3>Acc Game 2</h3>
+<p>Giá: 80.000</p>
+<button>Mua</button>
+</div>
+
+<button onclick="logout()">Đăng xuất</button>
+
+<script>
+
+let user=localStorage.getItem("login")
+
+if(!user){
+location.href="index.html"
+}
+
+document.getElementById("hello").innerText="Xin chào "+user
+
+function logout(){
+localStorage.removeItem("login")
+location.href="index.html"
+}
+
+</script>
+
+</body>
+</html>
