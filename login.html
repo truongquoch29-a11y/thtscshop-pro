@@ -3,33 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <title>Đăng nhập</title>
+
+<style>
+
+body{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#1f2937;
+color:white;
+font-family:Arial;
+}
+
+.box{
+background:#111827;
+padding:40px;
+border-radius:15px;
+width:300px;
+text-align:center;
+animation:fade 1s;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(30px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#00b4ff;
+border:none;
+border-radius:25px;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#008cff;
+}
+
+</style>
+
 </head>
 
 <body>
 
+<div class="box">
+
 <h2>Đăng nhập</h2>
 
 <input id="user" placeholder="Tên tài khoản">
-<br><br>
+
 <input id="pass" type="password" placeholder="Mật khẩu">
-<br><br>
 
 <button onclick="login()">Đăng nhập</button>
+
+</div>
 
 <script>
 
 function login(){
 
-let user = document.getElementById("user").value
-let pass = document.getElementById("pass").value
+let user=document.getElementById("user").value
+let pass=document.getElementById("pass").value
 
-let saved = localStorage.getItem(user)
+let saved=localStorage.getItem("acc_"+user)
 
-if(saved == pass){
+if(saved===pass){
 
 localStorage.setItem("login",user)
 
-location.href="nap.html"
+location.href="shop.html"
 
 }else{
 
