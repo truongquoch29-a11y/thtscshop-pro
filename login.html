@@ -203,30 +203,41 @@ p.classList.remove("show")
 
 }
 
-function login(){
+<script>
+
+async function login(){
 
 let user=document.getElementById("user").value
 let pass=document.getElementById("pass").value
 
-let saved=localStorage.getItem("acc_"+user)
+let res=await fetch("http://localhost:3000/login",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+user:user,
+pass:pass
+})
+})
 
-if(saved===pass){
+let data=await res.json()
+
+if(data.status==="ok"){
 
 localStorage.setItem("login",user)
 
-showPopup("Đăng nhập thành công","success")
-
-setTimeout(()=>{
 location.href="shop.html"
-},1000)
 
 }else{
 
-showPopup("Sai tài khoản","error")
+alert("Sai tài khoản hoặc mật khẩu")
 
 }
 
 }
+
+</script>
 
 </script>
 
