@@ -1,41 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Đăng nhập</title>
 
 <style>
 
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
 body{
-height:100vh;
+min-height:100vh;
 display:flex;
-align-items:center;
+flex-direction:column;
 justify-content:center;
+align-items:center;
 background:#1f2937;
 color:white;
 font-family:Arial;
+padding:20px;
 }
 
 .box{
 background:#111827;
-padding:40px;
+padding:30px 20px;
 border-radius:15px;
-width:300px;
+width:100%;
+max-width:320px;
 text-align:center;
-animation:fade 1s;
+animation:fade 0.8s;
 }
 
 @keyframes fade{
-from{opacity:0;transform:translateY(30px)}
+from{opacity:0;transform:translateY(25px)}
 to{opacity:1;transform:translateY(0)}
 }
 
 input{
 width:100%;
-padding:10px;
+padding:12px;
 margin:10px 0;
 border:none;
 border-radius:8px;
+font-size:14px;
 }
 
 button{
@@ -45,11 +58,43 @@ background:#00b4ff;
 border:none;
 border-radius:25px;
 color:white;
+font-size:14px;
 cursor:pointer;
 }
 
-button:hover{
+button:active{
 background:#008cff;
+}
+
+/* footer */
+
+footer{
+position:fixed;
+bottom:15px;
+text-align:center;
+width:100%;
+}
+
+.thank{
+font-size:13px;
+margin-bottom:6px;
+opacity:0.9;
+}
+
+.footer-buttons{
+display:flex;
+justify-content:center;
+gap:10px;
+}
+
+.footer-btn{
+background:rgba(255,255,255,0.15);
+padding:7px 14px;
+border-radius:10px;
+color:white;
+text-decoration:none;
+font-size:12px;
+border:1px solid rgba(255,255,255,0.25);
 }
 
 </style>
@@ -69,6 +114,22 @@ background:#008cff;
 <button onclick="login()">Đăng nhập</button>
 
 </div>
+
+<footer>
+
+<p class="thank">Cảm ơn quý khách đã ghé thăm shop</p>
+
+<div class="footer-buttons">
+
+<a href="https://zalo.me/YOUR_ZALO" class="footer-btn">Zalo</a>
+
+<a href="https://facebook.com/YOUR_FACE" class="footer-btn">Facebook</a>
+
+<a href="https://zalo.me/g/YOUR_GROUP" class="footer-btn">Group Zalo</a>
+
+</div>
+
+</footer>
 
 <script>
 
