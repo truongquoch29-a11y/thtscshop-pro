@@ -202,26 +202,41 @@ p.classList.remove("show")
 },3000)
 
 }
+<script>
 
-function register(){
+async function register(){
 
 let user=document.getElementById("user").value
 let pass=document.getElementById("pass").value
 
-if(user==="" || pass===""){
-showPopup("Vui lòng nhập đầy đủ thông tin","error")
-return
-}
+let res=await fetch("http://localhost:3000/register",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+user:user,
+pass:pass
+})
+})
 
-localStorage.setItem("acc_"+user,pass)
+let data=await res.json()
 
-showPopup("Tạo tài khoản thành công","success")
+if(data.status==="ok"){
 
-setTimeout(()=>{
+alert("Tạo tài khoản thành công")
+
 location.href="login.html"
-},1200)
+
+}else{
+
+alert("Tài khoản đã tồn tại")
 
 }
+
+}
+
+</script>
 
 </script>
 
