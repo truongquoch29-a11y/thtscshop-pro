@@ -14,10 +14,11 @@ font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-height:100vh;
+min-height:100vh;
 display:flex;
-align-items:center;
+flex-direction:column;
 justify-content:center;
+align-items:center;
 background:linear-gradient(270deg,#0f2027,#203a43,#2c5364);
 background-size:600% 600%;
 animation:bgmove 14s infinite;
@@ -30,14 +31,16 @@ color:white;
 100%{background-position:0% 50%}
 }
 
+/* card */
+
 .container{
 text-align:center;
 background:rgba(255,255,255,0.1);
 padding:50px;
 border-radius:20px;
-backdrop-filter:blur(10px);
+backdrop-filter:blur(12px);
 box-shadow:0 20px 40px rgba(0,0,0,0.5);
-animation:fade 1.2s;
+animation:fade 1s;
 }
 
 @keyframes fade{
@@ -45,13 +48,16 @@ from{opacity:0;transform:translateY(40px)}
 to{opacity:1;transform:translateY(0)}
 }
 
+/* logo auto crop circle */
+
 .logo{
 width:130px;
 height:130px;
 border-radius:50%;
 object-fit:cover;
-margin-bottom:20px;
+overflow:hidden;
 box-shadow:0 0 25px rgba(255,255,255,0.6);
+margin-bottom:20px;
 animation:float 3s infinite ease-in-out;
 }
 
@@ -62,13 +68,13 @@ animation:float 3s infinite ease-in-out;
 }
 
 h1{
-font-size:38px;
+font-size:36px;
 margin-bottom:10px;
 }
 
 .desc{
 opacity:0.8;
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 .btn{
@@ -88,30 +94,99 @@ transform:scale(1.08);
 background:#008cff;
 }
 
+/* popup */
+
 .popup{
 position:fixed;
-bottom:20px;
-right:20px;
+bottom:25px;
+right:25px;
 background:white;
 color:black;
-padding:18px;
+padding:16px 18px;
 border-radius:12px;
-width:250px;
+width:260px;
 box-shadow:0 15px 30px rgba(0,0,0,0.4);
-animation:slide 0.6s;
+display:flex;
+gap:10px;
+align-items:flex-start;
+animation:popupIn 0.5s;
 }
 
-@keyframes slide{
-from{transform:translateX(120%);opacity:0}
-to{transform:translateX(0);opacity:1}
+.popup.hide{
+animation:popupOut 0.5s forwards;
 }
 
-.close{
-position:absolute;
-top:6px;
-right:10px;
-cursor:pointer;
-font-weight:bold;
+@keyframes popupIn{
+from{
+transform:translateX(120%);
+opacity:0;
+}
+to{
+transform:translateX(0);
+opacity:1;
+}
+}
+
+@keyframes popupOut{
+from{
+transform:translateX(0);
+opacity:1;
+}
+to{
+transform:translateX(120%);
+opacity:0;
+}
+}
+
+.icon{
+font-size:22px;
+}
+
+/* footer */
+
+footer{
+position:fixed;
+bottom:0;
+width:100%;
+display:flex;
+justify-content:center;
+gap:20px;
+padding:12px;
+background:rgba(0,0,0,0.3);
+backdrop-filter:blur(8px);
+}
+
+.social{
+padding:10px 18px;
+border-radius:30px;
+text-decoration:none;
+color:white;
+font-size:14px;
+transition:0.3s;
+box-shadow:0 0 10px rgba(0,0,0,0.5);
+animation:pulse 3s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.08)}
+100%{transform:scale(1)}
+}
+
+.zalo{
+background:#0084ff;
+}
+
+.face{
+background:#1877f2;
+}
+
+.group{
+background:#00c853;
+}
+
+.social:hover{
+transform:scale(1.15);
 }
 
 </style>
@@ -121,7 +196,7 @@ font-weight:bold;
 
 <div class="container">
 
-<img src="images/logo.png" class="logo">
+<img src="images/logo-1.png" class="logo">
 
 <h1>THTSCSHOP</h1>
 
@@ -134,13 +209,30 @@ font-weight:bold;
 
 <div class="popup" id="popup">
 
-<span class="close" onclick="closePopup()">×</span>
+<div class="icon">🔔</div>
 
+<div>
 <b>Thông báo</b>
-
 <p>Đăng nhập để vào shop</p>
+</div>
 
 </div>
+
+<footer>
+
+<a class="social zalo" href="https://zalo.me/YOUR_ZALO_LINK" target="_blank">
+Zalo
+</a>
+
+<a class="social face" href="https://facebook.com/YOUR_FACE_LINK" target="_blank">
+Facebook
+</a>
+
+<a class="social group" href="https://zalo.me/g/YOUR_GROUP_LINK" target="_blank">
+Group Zalo
+</a>
+
+</footer>
 
 <script>
 
@@ -150,9 +242,12 @@ if(user){
 location.href="shop.html"
 }
 
-function closePopup(){
-document.getElementById("popup").style.display="none"
-}
+/* popup auto hide */
+
+setTimeout(()=>{
+let p = document.getElementById("popup")
+p.classList.add("hide")
+},5000)
 
 </script>
 
