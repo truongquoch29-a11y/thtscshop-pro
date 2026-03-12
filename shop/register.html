@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tạo tài khoản</title>
+</head>
+
+<body>
+
+<h2>Tạo tài khoản</h2>
+
+<input id="user" placeholder="Tên tài khoản">
+<br><br>
+<input id="pass" type="password" placeholder="Mật khẩu">
+<br><br>
+
+<button onclick="register()">Tạo</button>
+
+<script>
+
+function register(){
+
+let user = document.getElementById("user").value
+let pass = document.getElementById("pass").value
+
+localStorage.setItem(user,pass)
+
+alert("Tạo tài khoản thành công")
+
+}
+
+</script>
+
+</body>
+</html>
