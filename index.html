@@ -140,7 +140,6 @@ background:#008cff;
 }
 
 /* popup */
-
 .popup{
 position:fixed;
 right:20px;
@@ -157,33 +156,34 @@ font-size:14px;
 animation:popupShow 0.4s ease, popupHide 0.4s ease 4.6s forwards;
 }
 
+@keyframes popupShow{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes popupHide{
+from{
+opacity:1;
+transform:translateY(0);
+}
+to{
+opacity:0;
+transform:translateY(20px);
+}
+}
+
 
 
 .popup.hide{
 animation:popupOut 0.5s forwards;
 }
 
-@keyframes popupIn{
-from{
-transform:translateX(120%);
-opacity:0;
-}
-to{
-transform:translateX(0);
-opacity:1;
-}
-}
-
-@keyframes popupOut{
-from{
-transform:translateX(0);
-opacity:1;
-}
-to{
-transform:translateX(120%);
-opacity:0;
-}
-}
 
 .icon{
 font-size:22px;
