@@ -147,13 +147,32 @@ font-size:22px;
 footer{
 position:fixed;
 bottom:0;
+left:0;
 width:100%;
+text-align:center;
+padding:15px 0;
+}
+
+.thank{
+margin-bottom:8px;
+font-size:14px;
+opacity:0.9;
+}
+
+.footer-buttons{
 display:flex;
 justify-content:center;
-gap:20px;
-padding:12px;
-background:rgba(0,0,0,0.3);
-backdrop-filter:blur(8px);
+gap:12px;
+}
+
+.footer-btn{
+background:rgba(255,255,255,0.15);
+padding:8px 16px;
+border-radius:10px;
+color:white;
+text-decoration:none;
+font-size:14px;
+border:1px solid rgba(255,255,255,0.25);
 }
 
 .social{
@@ -220,20 +239,25 @@ transform:scale(1.15);
 
 <footer>
 
-<a class="social zalo" href="https://zalo.me/YOUR_ZALO_LINK" target="_blank">
+<p class="thank">XIN CHÀO QUÝ KHÁCH</p>
+
+<div class="footer-buttons">
+
+<a href="https://zalo.me/YOUR_ZALO_LINK" target="_blank" class="footer-btn">
 Zalo
 </a>
 
-<a class="social face" href="https://facebook.com/YOUR_FACE_LINK" target="_blank">
+<a href="https://facebook.com/YOUR_FACE_LINK" target="_blank" class="footer-btn">
 Facebook
 </a>
 
-<a class="social group" href="https://zalo.me/g/YOUR_GROUP_LINK" target="_blank">
+<a href="https://zalo.me/g/YOUR_GROUP_LINK" target="_blank" class="footer-btn">
 Group Zalo
 </a>
 
-</footer>
+</div>
 
+</footer>
 <script>
 
 let user = localStorage.getItem("login")
