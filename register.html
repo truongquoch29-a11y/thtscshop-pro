@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Tạo tài khoản</title>
 
 <style>
 
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
 body{
-height:100vh;
+min-height:100vh;
 display:flex;
-align-items:center;
+flex-direction:column;
 justify-content:center;
+align-items:center;
 background:#0f172a;
 color:white;
 font-family:Arial;
+padding:20px;
 }
 
 .box{
 background:#1e293b;
-padding:40px;
+padding:30px 20px;
 border-radius:15px;
-width:300px;
+width:100%;
+max-width:320px;
 text-align:center;
+animation:fade 0.8s;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(25px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 input{
 width:100%;
-padding:10px;
+padding:12px;
 margin:10px 0;
 border:none;
 border-radius:8px;
+font-size:14px;
 }
 
 button{
@@ -39,11 +58,82 @@ background:#22c55e;
 border:none;
 border-radius:25px;
 color:white;
+font-size:14px;
 cursor:pointer;
 }
 
-button:hover{
+button:active{
 background:#16a34a;
+}
+
+/* footer */
+
+footer{
+position:fixed;
+bottom:15px;
+text-align:center;
+width:100%;
+}
+
+.thank{
+font-size:13px;
+margin-bottom:6px;
+opacity:0.9;
+}
+
+.footer-buttons{
+display:flex;
+justify-content:center;
+gap:10px;
+}
+
+.footer-btn{
+background:rgba(255,255,255,0.15);
+padding:7px 14px;
+border-radius:10px;
+color:white;
+text-decoration:none;
+font-size:12px;
+border:1px solid rgba(255,255,255,0.25);
+}
+
+/* popup */
+
+.popup{
+position:fixed;
+left:50%;
+bottom:100px;
+transform:translateX(-50%) translateY(40px);
+background:#111827;
+color:white;
+padding:14px 18px;
+border-radius:12px;
+display:flex;
+align-items:center;
+gap:10px;
+font-size:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
+opacity:0;
+pointer-events:none;
+transition:all 0.4s ease;
+z-index:999;
+}
+
+.popup.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.popup.success{
+border-left:4px solid #22c55e;
+}
+
+.popup.error{
+border-left:4px solid #ef4444;
+}
+
+#popupIcon{
+font-size:18px;
 }
 
 </style>
@@ -64,16 +154,68 @@ background:#16a34a;
 
 </div>
 
+<footer>
+
+<p class="thank">Cảm ơn quý khách đã ghé thăm shop</p>
+
+<div class="footer-buttons">
+
+<a href="https://zalo.me/YOUR_ZALO" class="footer-btn">Zalo</a>
+
+<a href="https://facebook.com/YOUR_FACE" class="footer-btn">Facebook</a>
+
+<a href="https://zalo.me/g/YOUR_GROUP" class="footer-btn">Group Zalo</a>
+
+</div>
+
+</footer>
+
+<div id="popup" class="popup">
+<span id="popupIcon">⚠️</span>
+<span id="popupText"></span>
+</div>
+
 <script>
+
+function showPopup(text,type){
+
+let p=document.getElementById("popup")
+let icon=document.getElementById("popupIcon")
+let txt=document.getElementById("popupText")
+
+txt.innerText=text
+
+p.classList.remove("success","error")
+
+if(type==="success"){
+icon.innerText="✅"
+p.classList.add("success")
+}else{
+icon.innerText="⚠️"
+p.classList.add("error")
+}
+
+p.classList.add("show")
+
+setTimeout(()=>{
+p.classList.remove("show")
+},3000)
+
+}
 
 function register(){
 
 let user=document.getElementById("user").value
 let pass=document.getElementById("pass").value
 
+if(user==="" || pass===""){
+showPopup("Vui lòng nhập đầy đủ thông tin","error")
+return
+}
+
 localStorage.setItem("acc_"+user,pass)
 
-alert("Tạo tài khoản thành công")
+showPopup("Tạo tài khoản thành công","success")
 
 }
 
