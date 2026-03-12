@@ -154,30 +154,30 @@ align-items:center;
 gap:10px;
 font-size:14px;
 opacity:0;
-transform:translateY(30px) scale(0.95);
-animation:popupIn 0.45s ease-out forwards, popupOut 0.45s ease-in 4.6s forwards;
+transform:translateX(60px);
+animation:popupIn 0.8s ease forwards 0.3s, popupOut 0.8s ease forwards 5s;
 z-index:50;
 }
 
 @keyframes popupIn{
 0%{
 opacity:0;
-transform:translateY(30px) scale(0.95);
+transform:translateX(60px);
 }
 100%{
 opacity:1;
-transform:translateY(0) scale(1);
+transform:translateX(0);
 }
 }
 
 @keyframes popupOut{
 0%{
 opacity:1;
-transform:translateY(0) scale(1);
+transform:translateX(0);
 }
 100%{
 opacity:0;
-transform:translateY(20px) scale(0.96);
+transform:translateX(60px);
 }
 }
 
