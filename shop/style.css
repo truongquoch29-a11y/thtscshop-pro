@@ -1,0 +1,14 @@
+body{
+font-family:Arial;
+text-align:center;
+margin-top:100px;
+}
+
+.menu a{
+margin:10px;
+padding:10px 20px;
+background:#007bff;
+color:white;
+text-decoration:none;
+border-radius:5px;
+}
