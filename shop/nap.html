@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Nạp tiền</title>
+</head>
+
+<body>
+
+<h2>Nạp tiền</h2>
+
+<input id="money" placeholder="Số tiền">
+
+<br><br>
+
+<button onclick="nap()">Tạo QR</button>
+
+<br><br>
+
+<div id="qr"></div>
+
+<script>
+
+function nap(){
+
+let user = localStorage.getItem("login")
+
+let money = document.getElementById("money").value
+
+let qr =
+"https://img.vietqr.io/image/VCB-0123456789-compact.png?amount="
++money+
+"&addInfo=NAP-"+user+
+"&accountName=THTSCSHOP"
+
+document.getElementById("qr").innerHTML =
+'<img src="'+qr+'" width="300">'
+
+}
+
+</script>
+
+</body>
+</html>
