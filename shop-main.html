@@ -7,7 +7,53 @@
 <title>THTSC Shop</title>
 
 <style>
+footer{
+position:fixed;
+bottom:0;
+width:100%;
+background:#020617;
+padding:16px 10px;
+text-align:center;
+transition:.4s;
+}
 
+body.light footer{
+background:white;
+}
+
+.footer-text{
+font-size:14px;
+margin-bottom:10px;
+opacity:.9;
+}
+
+.footer-links{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.footer-btn{
+background:rgba(255,255,255,0.12);
+border:1px solid rgba(255,255,255,0.25);
+padding:8px 16px;
+border-radius:12px;
+color:white;
+text-decoration:none;
+font-size:13px;
+transition:.25s;
+}
+
+.footer-btn:hover{
+transform:scale(1.08);
+}
+
+body.light .footer-btn{
+color:black;
+border:1px solid #ccc;
+background:#f1f5f9;
+}
 *{
 margin:0;
 padding:0;
@@ -450,7 +496,21 @@ background:white;
 </div>
 
 <footer>
-<p>Cảm ơn quý khách đã ghé thăm shop</p>
+
+<div class="footer-text">
+Cảm ơn quý khách đã ghé thăm shop
+</div>
+
+<div class="footer-links">
+
+<a href="#" class="footer-btn">Zalo</a>
+
+<a href="#" class="footer-btn">Facebook</a>
+
+<a href="#" class="footer-btn">Group Zalo</a>
+
+</div>
+
 </footer>
 
 <script>
