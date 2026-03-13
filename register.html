@@ -8,7 +8,27 @@
 <title>Tạo tài khoản</title>
 
 <style>
+.pass-box{
+position:relative;
+}
 
+.pass-box input{
+padding-right:40px;
+}
+
+.eye{
+position:absolute;
+right:10px;
+top:50%;
+transform:translateY(-50%) scale(1);
+cursor:pointer;
+font-size:18px;
+transition:0.25s;
+}
+
+.eye:active{
+transform:translateY(-50%) scale(0.85);
+}
 *{
 box-sizing:border-box;
 margin:0;
@@ -148,7 +168,10 @@ font-size:18px;
 
 <input id="user" placeholder="Tên tài khoản">
 
+<div class="pass-box">
 <input id="pass" type="password" placeholder="Mật khẩu">
+<span class="eye" onclick="togglePass()">👁</span>
+</div>
 
 <button onclick="register()">Tạo</button>
 
@@ -239,7 +262,20 @@ showPopup("Tài khoản đã tồn tại","error")
 
 }
 
+function togglePass(){
 
+let pass=document.getElementById("pass")
+let eye=document.querySelector(".eye")
+
+if(pass.type==="password"){
+pass.type="text"
+eye.innerText="🙈"
+}else{
+pass.type="password"
+eye.innerText="👁"
+}
+
+}
 </script>
 
 </body>
