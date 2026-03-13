@@ -7,6 +7,25 @@
 <title>THTSC Shop</title>
 
 <style>
+  .logo-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
+}
+
+.shop-name{
+font-size:18px;
+font-weight:bold;
+}
+
+.user-name{
+font-size:12px;
+opacity:.8;
+background:rgba(255,255,255,0.08);
+padding:3px 8px;
+border-radius:8px;
+margin-top:3px;
+}
 footer{
 width:100%;
 background:#0b1220;
@@ -64,7 +83,6 @@ background:#0f172a;
 color:white;
 font-family:Arial;
 min-height:100vh;
-padding-bottom:140px;
 transition:background .4s,color .4s;
 }
 
@@ -370,7 +388,12 @@ border-left:4px solid #22c55e;
 
 <div class="logo">
 <img src="images/logo-1.png">
-<span>THTSC SHOP</span>
+
+<div class="logo-text">
+<span class="shop-name">THTSC SHOP</span>
+<span class="user-name">👤 <span id="username"></span></span>
+</div>
+
 </div>
 
 <div style="display:flex;gap:10px;align-items:center">
@@ -504,7 +527,7 @@ Cảm ơn quý khách đã ghé thăm shop
 const SERVER="https://shop-server-66d5.onrender.com"
 
 let user=localStorage.getItem("login")
-
+document.getElementById("username").innerText=user
 if(!user){
 location.href="login.html"
 }
