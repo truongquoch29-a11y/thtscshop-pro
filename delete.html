@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin - Xóa tài khoản</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial;
+}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#0f172a;
+color:white;
+}
+
+.box{
+background:#1e293b;
+padding:30px;
+border-radius:15px;
+width:100%;
+max-width:350px;
+text-align:center;
+animation:fade 0.6s;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:8px;
+font-size:14px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:25px;
+background:#ef4444;
+color:white;
+font-size:14px;
+cursor:pointer;
+}
+
+button:active{
+background:#dc2626;
+}
+
+.popup{
+position:fixed;
+bottom:100px;
+left:50%;
+transform:translateX(-50%) translateY(40px);
+background:#111827;
+padding:14px 18px;
+border-radius:10px;
+display:flex;
+gap:10px;
+align-items:center;
+opacity:0;
+transition:0.4s;
+pointer-events:none;
+}
+
+.popup.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.success{
+border-left:4px solid #22c55e;
+}
+
+.error{
+border-left:4px solid #ef4444;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Admin Panel</h2>
+
+<input id="adminPass" type="password" placeholder="Mật khẩu admin">
+
+<input id="user" placeholder="Username cần xóa">
+
+<button onclick="deleteUser()">Xóa tài khoản</button>
+
+</div>
+
+<div id="popup" class="popup">
+<span id="popupText"></span>
+</div>
+
+<script>
+
+const ADMIN_PASSWORD="THTSC3636"
+
+function showPopup(text,type){
+
+let p=document.getElementById("popup")
+let txt=document.getElementById("popupText")
+
+txt.innerText=text
+
+p.classList.remove("success","error")
+
+if(type==="success"){
+p.classList.add("success")
+}else{
+p.classList.add("error")
+}
+
+p.classList.add("show")
+
+setTimeout(()=>{
+p.classList.remove("show")
+},3000)
+
+}
+
+async function deleteUser(){
+
+let adminPass=document.getElementById("adminPass").value
+let user=document.getElementById("user").value
+
+if(adminPass!==ADMIN_PASSWORD){
+showPopup("Sai mật khẩu admin","error")
+return
+}
+
+try{
+
+let res=await fetch("https://shop-server-66d5.onrender.com/api/delete",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+username:user
+})
+})
+
+let data=await res.json()
+
+if(data.success){
+showPopup("Đã xóa tài khoản","success")
+}else{
+showPopup("Không tìm thấy tài khoản","error")
+}
+
+}catch{
+
+showPopup("Lỗi kết nối server","error")
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
