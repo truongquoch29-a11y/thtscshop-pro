@@ -20,12 +20,6 @@ color:white;
 height:100vh;
 display:flex;
 flex-direction:column;
-animation:bgmove 8s infinite alternate;
-}
-
-@keyframes bgmove{
-0%{background-position:left}
-100%{background-position:right}
 }
 
 .header{
@@ -45,12 +39,6 @@ border-radius:12px;
 width:90%;
 max-width:360px;
 text-align:center;
-box-shadow:0 0 25px rgba(0,0,0,0.6);
-animation:fade 0.5s;
-}
-
-.login-box h2{
-margin-bottom:15px;
 }
 
 .password-box{
@@ -62,7 +50,6 @@ width:100%;
 padding:11px 40px 11px 11px;
 border:none;
 border-radius:6px;
-outline:none;
 }
 
 .eye{
@@ -71,12 +58,6 @@ right:12px;
 top:50%;
 transform:translateY(-50%);
 cursor:pointer;
-font-size:18px;
-transition:0.2s;
-}
-
-.eye:hover{
-transform:translateY(-50%) scale(1.2);
 }
 
 .login-btn{
@@ -89,12 +70,6 @@ background:#00aaff;
 color:white;
 font-weight:bold;
 cursor:pointer;
-transition:0.25s;
-}
-
-.login-btn:hover{
-background:#0088cc;
-transform:scale(1.05);
 }
 
 .container{
@@ -119,12 +94,10 @@ border-bottom:1px solid rgba(255,255,255,0.1);
 padding:14px;
 border-bottom:1px solid rgba(255,255,255,0.05);
 cursor:pointer;
-transition:0.2s;
 }
 
 .user:hover{
 background:rgba(0,170,255,0.15);
-padding-left:20px;
 }
 
 .info{
@@ -142,8 +115,6 @@ border-radius:10px;
 width:90%;
 max-width:420px;
 text-align:center;
-box-shadow:0 0 25px rgba(0,0,0,0.5);
-animation:fade 0.5s;
 }
 
 .data{
@@ -157,7 +128,6 @@ padding:10px;
 margin-top:10px;
 border:none;
 border-radius:6px;
-outline:none;
 }
 
 button{
@@ -167,7 +137,6 @@ border:none;
 border-radius:6px;
 cursor:pointer;
 font-weight:bold;
-transition:0.2s;
 }
 
 .add{
@@ -175,26 +144,32 @@ background:#00aaff;
 color:white;
 }
 
-.add:hover{
-background:#0088cc;
-transform:scale(1.05);
-}
-
 .delete{
 background:#ff3b3b;
 color:white;
 }
 
-.delete:hover{
-background:#cc2a2a;
-transform:scale(1.05);
+.kick{
+background:#f59e0b;
+color:white;
+}
+
+.history{
+margin-top:15px;
+background:#020617;
+padding:10px;
+border-radius:6px;
+max-height:120px;
+overflow:auto;
+font-size:14px;
+text-align:left;
 }
 
 .popup{
 position:fixed;
 top:20px;
 left:50%;
-transform:translateX(-50%) translateY(-20px);
+transform:translateX(-50%);
 background:#020617;
 padding:12px 20px;
 border-radius:8px;
@@ -205,7 +180,6 @@ border:1px solid #1e293b;
 
 .popup.show{
 opacity:1;
-transform:translateX(-50%) translateY(0);
 }
 
 .success{
@@ -214,24 +188,6 @@ border-color:#22c55e;
 
 .error{
 border-color:#ef4444;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(15px)}
-to{opacity:1;transform:translateY(0)}
-}
-
-@media(max-width:800px){
-
-.container{
-flex-direction:column;
-}
-
-.user-list{
-width:100%;
-height:200px;
-}
-
 }
 
 </style>
@@ -276,6 +232,10 @@ ADMIN CONTROL PANEL
 <script>
 
 const SERVER="https://shop-server-66d5.onrender.com"
+
+function money(n){
+return Number(n).toLocaleString("vi-VN")
+}
 
 function popup(text,type){
 
@@ -367,29 +327,37 @@ async function loadUser(username){
 let res=await fetch(SERVER+"/admin/user/"+username)
 let u=await res.json()
 
+let napHistory=(u.nap_history||[]).map(i=>{
+return `<div>+ ${money(i.amount)} đ</div>`
+}).join("") || "Không có"
+
+let buyHistory=(u.buy_history||[]).map(i=>{
+return `<div>- ${i.item} | ${money(i.price)} đ</div>`
+}).join("") || "Không có"
+
 document.getElementById("infoBox").innerHTML=`
 
 <h3>${u.username}</h3>
 
-<div class="data">Số dư: ${u.balance}</div>
+<div class="data">Số dư: ${money(u.balance)} đ</div>
 
-<div id="moneyBox">
+<div class="data">Ngày tạo: ${u.created_at||"Không rõ"}</div>
+
 <input id="money" placeholder="Số tiền cần cộng">
-<button class="add" onclick="addMoney('${u.username}')">
-Cộng tiền
-</button>
-</div>
+<button class="add" onclick="addMoney('${u.username}')">Cộng tiền</button>
 
-<div id="passBox">
 <input id="pass" placeholder="Mật khẩu mới">
-<button class="add" onclick="changePass('${u.username}')">
-Đổi mật khẩu
-</button>
-</div>
+<button class="add" onclick="changePass('${u.username}')">Đổi mật khẩu</button>
 
-<button class="delete" onclick="deleteUser('${u.username}')">
-Xoá user
-</button>
+<button class="kick" onclick="kickUser('${u.username}')">Kick user</button>
+
+<button class="delete" onclick="deleteUser('${u.username}')">Xoá user</button>
+
+<h4>Lịch sử nạp</h4>
+<div class="history">${napHistory}</div>
+
+<h4>Lịch sử mua acc</h4>
+<div class="history">${buyHistory}</div>
 
 `
 
@@ -406,9 +374,6 @@ body:JSON.stringify({username,amount})
 })
 
 popup("Đã cộng tiền","success")
-
-document.getElementById("moneyBox").style.display="none"
-
 loadUser(username)
 
 }
@@ -425,7 +390,17 @@ body:JSON.stringify({username,password})
 
 popup("Đã đổi mật khẩu","success")
 
-document.getElementById("passBox").style.display="none"
+}
+
+async function kickUser(username){
+
+await fetch(SERVER+"/admin/kick-user",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username})
+})
+
+popup("Đã kick user","success")
 
 }
 
