@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -22,14 +23,14 @@ min-height:100vh;
 padding-bottom:120px;
 }
 
-/* header */
+/* HEADER */
 
 header{
-background:#020617;
-padding:15px 25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+padding:15px 20px;
+background:#020617;
 border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
@@ -37,61 +38,41 @@ border-bottom:1px solid rgba(255,255,255,0.1);
 display:flex;
 align-items:center;
 gap:10px;
-font-size:20px;
+font-size:18px;
 font-weight:bold;
 }
 
 .logo img{
-width:40px;
-height:40px;
+width:38px;
+height:38px;
 border-radius:50%;
 object-fit:cover;
 }
 
 .balance{
 background:#1e293b;
-padding:8px 15px;
+padding:8px 14px;
 border-radius:20px;
-font-size:14px;
+font-size:13px;
 }
 
-/* menu */
-
-.menu{
-display:flex;
-gap:15px;
-padding:20px;
-flex-wrap:wrap;
-}
-
-.menu button{
-background:#1e293b;
-border:none;
-color:white;
-padding:10px 18px;
-border-radius:20px;
-cursor:pointer;
-}
-
-.menu button:hover{
-background:#334155;
-}
-
-/* card */
+/* GRID */
 
 .container{
-padding:0 20px;
+padding:20px;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:18px;
 }
+
+/* CARD */
 
 .card{
 background:#1e293b;
 border-radius:14px;
 overflow:hidden;
-transition:0.3s;
 cursor:pointer;
+transition:0.3s;
 }
 
 .card:hover{
@@ -100,46 +81,46 @@ transform:translateY(-6px) scale(1.03);
 
 .card img{
 width:100%;
-height:150px;
+height:140px;
 object-fit:cover;
 }
 
 .card-body{
-padding:15px;
+padding:14px;
 }
 
 .card-body h3{
-margin-bottom:8px;
+margin-bottom:6px;
 }
 
 .card-body p{
-font-size:14px;
-opacity:0.8;
+font-size:13px;
+opacity:0.85;
 }
 
-/* action */
+/* ACTION */
 
 .actions{
-margin:25px 20px;
+padding:0 20px 20px 20px;
 display:flex;
 gap:10px;
 flex-wrap:wrap;
 }
 
 .actions button{
-background:#00b4ff;
+padding:10px 18px;
 border:none;
-padding:10px 20px;
 border-radius:20px;
-color:white;
 cursor:pointer;
+background:#00b4ff;
+color:white;
 }
 
-.actions button.logout{
+.logout{
 background:#ef4444;
 }
 
-/* popup */
+/* POPUP */
 
 .popup{
 position:fixed;
@@ -147,7 +128,6 @@ left:50%;
 bottom:100px;
 transform:translateX(-50%) translateY(40px);
 background:#111827;
-color:white;
 padding:14px 18px;
 border-radius:12px;
 display:flex;
@@ -157,7 +137,7 @@ font-size:14px;
 box-shadow:0 10px 25px rgba(0,0,0,0.35);
 opacity:0;
 pointer-events:none;
-transition:all 0.4s ease;
+transition:0.4s;
 z-index:999;
 }
 
@@ -174,7 +154,7 @@ border-left:4px solid #22c55e;
 border-left:4px solid #ef4444;
 }
 
-/* footer */
+/* FOOTER */
 
 footer{
 position:fixed;
@@ -206,6 +186,7 @@ border:1px solid rgba(255,255,255,0.25);
 }
 
 </style>
+
 </head>
 
 <body>
@@ -218,53 +199,49 @@ border:1px solid rgba(255,255,255,0.25);
 </div>
 
 <div class="balance">
-💰 Số dư: <span id="money">0</span>
+💰 <span id="money">0</span>
 </div>
 
 </header>
 
-<div class="menu">
-
-<button onclick="openPage('vip.html')">Acc VIP</button>
-<button onclick="openPage('thuong.html')">Acc Thường</button>
-<button onclick="openPage('clone.html')">Acc Clone</button>
-
-</div>
 
 <div class="container">
 
-<div class="card" onclick="openPage('vip.html')">
+<div class="card" onclick="go('vip.html')">
 <img src="https://picsum.photos/400/200">
 <div class="card-body">
 <h3>Acc VIP</h3>
-<p>Tài khoản chất lượng cao, rank cao, nhiều vật phẩm.</p>
+<p>Tài khoản chất lượng cao, nhiều vật phẩm.</p>
 </div>
 </div>
 
-<div class="card" onclick="openPage('thuong.html')">
+<div class="card" onclick="go('thuong.html')">
 <img src="https://picsum.photos/401/200">
 <div class="card-body">
 <h3>Acc Thường</h3>
-<p>Tài khoản giá rẻ phù hợp chơi giải trí.</p>
+<p>Tài khoản giá rẻ để chơi giải trí.</p>
 </div>
 </div>
 
-<div class="card" onclick="openPage('clone.html')">
+<div class="card" onclick="go('clone.html')">
 <img src="https://picsum.photos/402/200">
 <div class="card-body">
 <h3>Acc Clone</h3>
-<p>Tài khoản clone dùng phụ, giá cực rẻ.</p>
+<p>Tài khoản clone giá rẻ.</p>
 </div>
 </div>
 
 </div>
+
 
 <div class="actions">
 
-<button onclick="napTien()">Nạp tiền</button>
+<button onclick="nap()">Nạp tiền</button>
+
 <button class="logout" onclick="logout()">Đăng xuất</button>
 
 </div>
+
 
 <footer>
 
@@ -273,17 +250,21 @@ border:1px solid rgba(255,255,255,0.25);
 <div class="footer-buttons">
 
 <a href="https://zalo.me/YOUR_ZALO" class="footer-btn">Zalo</a>
+
 <a href="https://facebook.com/YOUR_FACE" class="footer-btn">Facebook</a>
+
 <a href="https://zalo.me/g/YOUR_GROUP" class="footer-btn">Group Zalo</a>
 
 </div>
 
 </footer>
 
+
 <div id="popup" class="popup">
 <span id="popupIcon">⚠️</span>
 <span id="popupText"></span>
 </div>
+
 
 <script>
 
@@ -321,7 +302,11 @@ p.classList.remove("show")
 
 }
 
-function openPage(p){
+setTimeout(()=>{
+popup("Xin chào "+user+" • Chào mừng tới shop","success")
+},500)
+
+function go(p){
 location.href=p
 }
 
@@ -330,19 +315,11 @@ localStorage.removeItem("login")
 location.href="login.html"
 }
 
-function napTien(){
+function nap(){
 location.href="nap.html"
 }
 
-/* welcome */
-
-setTimeout(()=>{
-popup("Xin chào "+user+" • Chào mừng đến với shop","success")
-},600)
-
-/* load money */
-
-async function loadUser(){
+async function load(){
 
 try{
 
@@ -352,27 +329,35 @@ let data=await res.json()
 
 if(data.status==="deleted"){
 localStorage.removeItem("login")
+popup("Tài khoản đã bị xoá","error")
+setTimeout(()=>{
 location.href="login.html"
+},1200)
 return
 }
 
 if(data.status==="pass_changed"){
 localStorage.removeItem("login")
+popup("Mật khẩu đã thay đổi, vui lòng đăng nhập lại","error")
+setTimeout(()=>{
 location.href="login.html"
+},1200)
 return
 }
 
 document.getElementById("money").innerText=data.balance
 
-}catch{}
+}catch{
+
+popup("Không kết nối được server","error")
 
 }
 
-loadUser()
+}
 
-/* auto refresh */
+load()
 
-setInterval(loadUser,5000)
+setInterval(load,5000)
 
 </script>
 
