@@ -277,7 +277,16 @@ showPopup("Không kết nối được server","error")
 }
 
 }
-
+fetch("https://thtscshop-server.onrender.com/api/login",{
+ method:"POST",
+ headers:{
+  "Content-Type":"application/json"
+ },
+ body:JSON.stringify({
+  username:username,
+  password:password
+ })
+})
 </script>
 
 </body>
