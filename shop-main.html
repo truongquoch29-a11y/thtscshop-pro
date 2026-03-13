@@ -7,20 +7,18 @@
 
 <title>THTSC Shop</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
 <style>
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:"Poppins",Arial;
 }
 
 body{
 background:#0f172a;
 color:white;
+font-family:Arial;
 min-height:100vh;
 padding-bottom:140px;
 transition:background 0.5s,color 0.5s;
@@ -52,7 +50,7 @@ display:flex;
 align-items:center;
 gap:10px;
 font-size:18px;
-font-weight:600;
+font-weight:bold;
 }
 
 .logo img{
@@ -62,22 +60,12 @@ border-radius:50%;
 object-fit:cover;
 }
 
-.header-right{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.menu-btn{
-font-size:22px;
-cursor:pointer;
-}
-
 .balance{
 background:#1e293b;
 padding:8px 14px;
 border-radius:20px;
 font-size:13px;
+transition:0.4s;
 }
 
 body.light .balance{
@@ -92,6 +80,7 @@ color:white;
 padding:8px 10px;
 border-radius:50%;
 font-size:16px;
+transition:0.4s;
 }
 
 body.light .theme-btn{
@@ -104,7 +93,7 @@ color:black;
 .menu{
 position:fixed;
 top:0;
-right:-270px;
+right:-260px;
 width:260px;
 height:100%;
 background:#020617;
@@ -117,35 +106,40 @@ z-index:999;
 right:0;
 }
 
+.menu-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+font-size:18px;
+}
+
+.menu-close{
+cursor:pointer;
+font-size:22px;
+}
+
 .menu a{
 display:flex;
 align-items:center;
 gap:10px;
 padding:12px 0;
-border-bottom:1px solid rgba(255,255,255,0.05);
+border-bottom:1px solid rgba(255,255,255,0.08);
 color:white;
 text-decoration:none;
-font-size:14px;
 }
 
-body.light .menu{
-background:white;
-color:black;
+/* BANNER MỚI */
+
+.banner{
+padding:20px;
 }
 
-/* NOTICE */
-
-.notice{
-margin:18px;
-background:#1e293b;
+.banner img{
+width:100%;
 border-radius:14px;
-padding:14px;
-line-height:1.6;
-font-size:14px;
-}
-
-body.light .notice{
-background:white;
+object-fit:cover;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 /* MARQUEE */
@@ -156,8 +150,8 @@ padding:8px;
 font-size:13px;
 overflow:hidden;
 white-space:nowrap;
-border-top:1px solid rgba(255,255,255,0.08);
-border-bottom:1px solid rgba(255,255,255,0.08);
+border-top:1px solid rgba(255,255,255,0.1);
+border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .marquee span{
@@ -169,6 +163,26 @@ animation:mar 18s linear infinite;
 @keyframes mar{
 0%{transform:translateX(0)}
 100%{transform:translateX(-100%)}
+}
+
+/* NOTICE */
+
+.notice{
+margin:18px;
+background:#1e293b;
+border-radius:14px;
+padding:14px;
+line-height:1.6;
+font-size:14px;
+transition:0.4s;
+}
+
+body.light .notice{
+background:white;
+}
+
+.notice h3{
+margin-bottom:8px;
 }
 
 /* GRID */
@@ -210,7 +224,6 @@ padding:14px;
 
 .card-body h3{
 margin-bottom:6px;
-font-weight:600;
 }
 
 .card-body p{
@@ -218,48 +231,46 @@ font-size:13px;
 opacity:0.85;
 }
 
-/* ACTION */
+/* POPUP LỚN */
 
-.actions{
-padding:0 20px 20px 20px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.actions button{
-padding:10px 18px;
-border:none;
-border-radius:20px;
-cursor:pointer;
-background:#00b4ff;
-color:white;
-}
-
-.logout{
-background:#ef4444;
-}
-
-/* POPUP */
-
-.popup{
+.big-popup{
 position:fixed;
-left:50%;
-top:40px;
-transform:translateX(-50%) scale(0.9);
-background:#111827;
-padding:20px 28px;
-border-radius:14px;
-font-size:16px;
-box-shadow:0 10px 30px rgba(0,0,0,0.45);
-opacity:0;
-transition:0.3s;
-z-index:1000;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
 }
 
-.popup.show{
-opacity:1;
-transform:translateX(-50%) scale(1);
+.popup-box{
+background:white;
+color:black;
+padding:30px;
+border-radius:16px;
+text-align:center;
+max-width:420px;
+width:90%;
+box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+.popup-box h1{
+font-size:28px;
+margin:10px 0;
+}
+
+.popup-box button{
+margin-top:20px;
+background:#6c63ff;
+border:none;
+color:white;
+padding:12px 26px;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
 }
 
 /* FOOTER */
@@ -271,6 +282,7 @@ width:100%;
 background:#020617;
 padding:12px;
 text-align:center;
+transition:0.4s;
 }
 
 body.light footer{
@@ -290,7 +302,7 @@ background:white;
 <span>THTSC SHOP</span>
 </div>
 
-<div class="header-right">
+<div style="display:flex;gap:10px;align-items:center">
 
 <button class="theme-btn" onclick="toggleTheme()">🌙</button>
 
@@ -298,27 +310,58 @@ background:white;
 💰 <span id="money">0</span>
 </div>
 
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
+<div style="font-size:22px;cursor:pointer" onclick="toggleMenu()">☰</div>
 
 </div>
 
 </header>
 
+<!-- MENU -->
 
 <div class="menu" id="menu">
 
-<a href="history.html">🧾 Lịch sử mua acc</a>
-<a href="nap-history.html">💰 Lịch sử nạp tiền</a>
-<a href="profile.html">👤 Thông tin tài khoản</a>
-<a href="support.html">☎ Hỗ trợ liên hệ</a>
+<div class="menu-header">
+<span>Menu</span>
+<div class="menu-close" onclick="toggleMenu()">✕</div>
+</div>
+
+<a href="#">🧾 Lịch sử mua acc</a>
+<a href="#">💰 Lịch sử nạp tiền</a>
+<a href="#">👤 Thông tin tài khoản</a>
+<a href="#">☎ Hỗ trợ liên hệ</a>
 
 </div>
 
+<!-- POPUP LỚN -->
+
+<div id="welcome" class="big-popup">
+
+<div class="popup-box">
+
+<h2>🔔 Thông Báo Mới 🔔</h2>
+
+<h1>WELCOME TO<br>THTSCSHOP</h1>
+
+<p>
+🎉 Chúc bạn mở acc hên – quay trúng lớn – chơi game thật đã  
+💙 Cảm ơn bạn đã tin tưởng và ủng hộ shop
+</p>
+
+<button onclick="closePopup()">OK</button>
+
+</div>
+
+</div>
+
+<!-- BANNER -->
+
+<div class="banner">
+<img src="images/banner.jpg">
+</div>
 
 <div class="marquee">
 <span>🔥 Shop đang có nhiều acc giá rẻ • Hỗ trợ 24/7 • Uy tín - Nhanh gọn • Chúc bạn mua acc vui vẻ 🔥</span>
 </div>
-
 
 <div class="notice">
 
@@ -331,157 +374,66 @@ background:white;
 
 </div>
 
-
 <div class="container">
 
-<div class="card" onclick="go('vip.html')">
-<img src="images-shopmain/vip.jpg">
+<div class="card">
+<img src="images-shopmain/vip.png">
 <div class="card-body">
 <h3>Acc VIP</h3>
 <p>Tài khoản chất lượng cao.</p>
 </div>
 </div>
 
-<div class="card" onclick="go('thuong.html')">
-<img src="images-shopmain/thuong.jpg">
+<div class="card">
+<img src="images-shopmain/thuong.png">
 <div class="card-body">
 <h3>Acc Thường</h3>
 <p>Tài khoản giá rẻ.</p>
 </div>
 </div>
-
-<div class="card" onclick="go('clone.html')">
-<img src="images-shopmain/clone.jpg">
+<div class="card">
+<img src="images-shopmain/clone.png">
 <div class="card-body">
 <h3>Acc Clone</h3>
-<p>Tài khoản clone.</p>
+<p>Tài khoản clone tùy loại.</p>
 </div>
 </div>
-
-<div class="card" onclick="go('tuimu.html')">
-<img src="images-shopmain/tuimu.jpg">
+  <div class="card">
+<img src="images-shopmain/tuimu.png">
 <div class="card-body">
 <h3>Túi Mù</h3>
-<p>Thử vận may.</p>
+<p>Túi mù giá rẻ.</p>
 </div>
+  </div>
 </div>
-
-</div>
-
-
-<div class="actions">
-
-<button onclick="nap()">Nạp tiền</button>
-
-<button class="logout" onclick="logout()">Đăng xuất</button>
-
-</div>
-
 
 <footer>
-
-<p>© THTSCShop</p>
-
+<p>Cảm ơn quý khách đã ghé thăm shop</p>
 </footer>
-
-
-<div id="popup" class="popup"></div>
-
 
 <script>
 
-const SERVER="https://shop-server-66d5.onrender.com"
-
-let user=localStorage.getItem("login")
-
-if(!user){
-location.href="login.html"
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("show")
 }
 
-function formatMoney(n){
-return Number(n).toLocaleString("vi-VN")
-}
-
-/* THEME */
-
-if(localStorage.getItem("theme")==="light"){
-document.body.classList.add("light")
+function closePopup(){
+document.getElementById("welcome").style.display="none"
 }
 
 function toggleTheme(){
 
 document.body.classList.toggle("light")
 
+let icon=document.querySelector(".theme-btn")
+
 if(document.body.classList.contains("light")){
-localStorage.setItem("theme","light")
+icon.innerText="☀️"
 }else{
-localStorage.setItem("theme","dark")
+icon.innerText="🌙"
 }
 
 }
-
-/* MENU */
-
-function toggleMenu(){
-document.getElementById("menu").classList.toggle("show")
-}
-
-/* POPUP */
-
-function popup(text){
-
-let p=document.getElementById("popup")
-
-p.innerText=text
-
-p.classList.add("show")
-
-setTimeout(()=>{
-p.classList.remove("show")
-},4000)
-
-}
-
-/* NAV */
-
-function go(p){
-location.href=p
-}
-
-function logout(){
-localStorage.removeItem("login")
-location.href="login.html"
-}
-
-function nap(){
-location.href="nap.html"
-}
-
-/* LOAD DATA */
-
-async function load(){
-
-try{
-
-let res = await fetch(SERVER + "/user/" + user)
-
-let data = await res.json()
-
-document.getElementById("money").innerText =
-formatMoney(data.balance)
-
-popup("Chào mừng "+user+" đến với THTSCSHOP")
-
-}catch{
-
-popup("Không kết nối được server")
-
-}
-
-}
-
-load()
-setInterval(load,5000)
 
 </script>
 
