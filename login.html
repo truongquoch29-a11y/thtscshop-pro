@@ -241,20 +241,20 @@ let pass=document.getElementById("pass").value
 
 try{
 
-let res=await fetch("http://localhost:3000/login",{
+let res=await fetch("https://shop-server-66d5.onrender.com/api/login",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-user:user,
-pass:pass
+username:user,
+password:pass
 })
 })
 
 let data=await res.json()
 
-if(data.status==="ok"){
+if(data.success){
 
 showPopup("Đăng nhập thành công","success")
 
@@ -277,16 +277,6 @@ showPopup("Không kết nối được server","error")
 }
 
 }
-fetch("https://shop-server-66d5.onrender.com/api/login",{
- method:"POST",
- headers:{
-  "Content-Type":"application/json"
- },
- body:JSON.stringify({
-  username:username,
-  password:password
- })
-})
 </script>
 
 </body>
