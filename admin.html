@@ -28,8 +28,6 @@ animation:bgmove 8s infinite alternate;
 100%{background-position:right}
 }
 
-/* HEADER */
-
 .header{
 padding:16px;
 font-size:22px;
@@ -38,8 +36,6 @@ text-align:center;
 background:rgba(0,0,0,0.6);
 border-bottom:1px solid rgba(255,255,255,0.1);
 }
-
-/* LOGIN */
 
 .login-box{
 margin:auto;
@@ -100,8 +96,6 @@ transition:0.25s;
 background:#0088cc;
 transform:scale(1.05);
 }
-
-/* PANEL */
 
 .container{
 flex:1;
@@ -196,8 +190,6 @@ background:#cc2a2a;
 transform:scale(1.05);
 }
 
-/* POPUP */
-
 .popup{
 position:fixed;
 top:20px;
@@ -224,14 +216,10 @@ border-color:#22c55e;
 border-color:#ef4444;
 }
 
-/* ANIMATION */
-
 @keyframes fade{
 from{opacity:0;transform:translateY(15px)}
 to{opacity:1;transform:translateY(0)}
 }
-
-/* MOBILE */
 
 @media(max-width:800px){
 
@@ -255,7 +243,6 @@ height:200px;
 ADMIN CONTROL PANEL
 </div>
 
-
 <div id="loginBox" class="login-box">
 
 <h2>Admin Login</h2>
@@ -269,30 +256,22 @@ ADMIN CONTROL PANEL
 
 </div>
 
-
 <div class="container" id="panel" style="display:none">
 
 <div class="user-list">
-
 <h2>Danh sách user</h2>
 <div id="users"></div>
-
 </div>
 
-
 <div class="info">
-
 <div class="info-box" id="infoBox">
 <h3>Chọn user để xem</h3>
 </div>
-
 </div>
 
 </div>
-
 
 <div class="popup" id="popup"></div>
-
 
 <script>
 
@@ -394,17 +373,19 @@ document.getElementById("infoBox").innerHTML=`
 
 <div class="data">Số dư: ${u.balance}</div>
 
+<div id="moneyBox">
 <input id="money" placeholder="Số tiền cần cộng">
-
 <button class="add" onclick="addMoney('${u.username}')">
 Cộng tiền
 </button>
+</div>
 
+<div id="passBox">
 <input id="pass" placeholder="Mật khẩu mới">
-
 <button class="add" onclick="changePass('${u.username}')">
 Đổi mật khẩu
 </button>
+</div>
 
 <button class="delete" onclick="deleteUser('${u.username}')">
 Xoá user
@@ -424,6 +405,10 @@ headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username,amount})
 })
 
+popup("Đã cộng tiền","success")
+
+document.getElementById("moneyBox").style.display="none"
+
 loadUser(username)
 
 }
@@ -439,6 +424,8 @@ body:JSON.stringify({username,password})
 })
 
 popup("Đã đổi mật khẩu","success")
+
+document.getElementById("passBox").style.display="none"
 
 }
 
