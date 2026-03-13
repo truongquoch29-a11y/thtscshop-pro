@@ -8,6 +8,55 @@
 <title>Tạo tài khoản</title>
 
 <style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:#0f172a;
+color:white;
+font-family:Arial;
+padding:20px;
+}
+
+/* box */
+
+.box{
+background:#1e293b;
+padding:30px 20px;
+border-radius:15px;
+width:100%;
+max-width:320px;
+text-align:center;
+animation:fade 0.8s;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(25px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+/* input */
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:none;
+border-radius:8px;
+font-size:14px;
+}
+
+/* password */
+
 .pass-box{
 position:relative;
 }
@@ -29,47 +78,8 @@ transition:0.25s;
 .eye:active{
 transform:translateY(-50%) scale(0.85);
 }
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
 
-body{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background:#0f172a;
-color:white;
-font-family:Arial;
-padding:20px;
-}
-
-.box{
-background:#1e293b;
-padding:30px 20px;
-border-radius:15px;
-width:100%;
-max-width:320px;
-text-align:center;
-animation:fade 0.8s;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(25px)}
-to{opacity:1;transform:translateY(0)}
-}
-
-input{
-width:100%;
-padding:12px;
-margin:10px 0;
-border:none;
-border-radius:8px;
-font-size:14px;
-}
+/* button */
 
 button{
 width:100%;
@@ -84,6 +94,19 @@ cursor:pointer;
 
 button:active{
 background:#16a34a;
+}
+
+/* switch login */
+
+.switch{
+margin-top:10px;
+font-size:13px;
+opacity:0.9;
+}
+
+.switch a{
+color:#38bdf8;
+text-decoration:none;
 }
 
 /* footer */
@@ -175,6 +198,10 @@ font-size:18px;
 
 <button onclick="register()">Tạo</button>
 
+<p class="switch">
+Đã có tài khoản? <a href="login.html">Đăng nhập</a>
+</p>
+
 </div>
 
 <footer>
@@ -197,8 +224,6 @@ font-size:18px;
 <span id="popupIcon">⚠️</span>
 <span id="popupText"></span>
 </div>
-
-
 
 <script>
 
@@ -263,7 +288,9 @@ showPopup("Tài khoản đã tồn tại","error")
 showPopup("Lỗi tạo tài khoản","error")
 
 }
+
 }
+
 function togglePass(){
 
 let pass=document.getElementById("pass")
@@ -278,6 +305,7 @@ eye.innerText="👁"
 }
 
 }
+
 </script>
 
 </body>
