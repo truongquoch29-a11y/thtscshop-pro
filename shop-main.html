@@ -2,76 +2,377 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Shop Acc</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>THTSC Shop</title>
 
 <style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 background:#0f172a;
 color:white;
 font-family:Arial;
-padding:40px;
+min-height:100vh;
+padding-bottom:120px;
+}
+
+/* header */
+
+header{
+background:#020617;
+padding:15px 25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:20px;
+font-weight:bold;
+}
+
+.logo img{
+width:40px;
+height:40px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.balance{
+background:#1e293b;
+padding:8px 15px;
+border-radius:20px;
+font-size:14px;
+}
+
+/* menu */
+
+.menu{
+display:flex;
+gap:15px;
+padding:20px;
+flex-wrap:wrap;
+}
+
+.menu button{
+background:#1e293b;
+border:none;
+color:white;
+padding:10px 18px;
+border-radius:20px;
+cursor:pointer;
+}
+
+.menu button:hover{
+background:#334155;
+}
+
+/* card */
+
+.container{
+padding:0 20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
 }
 
 .card{
 background:#1e293b;
-padding:20px;
-border-radius:12px;
-margin:20px 0;
+border-radius:14px;
+overflow:hidden;
 transition:0.3s;
+cursor:pointer;
 }
 
 .card:hover{
-transform:scale(1.05);
+transform:translateY(-6px) scale(1.03);
 }
 
-button{
-padding:10px 20px;
+.card img{
+width:100%;
+height:150px;
+object-fit:cover;
+}
+
+.card-body{
+padding:15px;
+}
+
+.card-body h3{
+margin-bottom:8px;
+}
+
+.card-body p{
+font-size:14px;
+opacity:0.8;
+}
+
+/* action */
+
+.actions{
+margin:25px 20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.actions button{
 background:#00b4ff;
 border:none;
+padding:10px 20px;
 border-radius:20px;
 color:white;
 cursor:pointer;
 }
 
-</style>
+.actions button.logout{
+background:#ef4444;
+}
 
+/* popup */
+
+.popup{
+position:fixed;
+left:50%;
+bottom:100px;
+transform:translateX(-50%) translateY(40px);
+background:#111827;
+color:white;
+padding:14px 18px;
+border-radius:12px;
+display:flex;
+align-items:center;
+gap:10px;
+font-size:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
+opacity:0;
+pointer-events:none;
+transition:all 0.4s ease;
+z-index:999;
+}
+
+.popup.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.popup.success{
+border-left:4px solid #22c55e;
+}
+
+.popup.error{
+border-left:4px solid #ef4444;
+}
+
+/* footer */
+
+footer{
+position:fixed;
+bottom:15px;
+text-align:center;
+width:100%;
+}
+
+.thank{
+font-size:13px;
+margin-bottom:6px;
+opacity:0.9;
+}
+
+.footer-buttons{
+display:flex;
+justify-content:center;
+gap:10px;
+}
+
+.footer-btn{
+background:rgba(255,255,255,0.15);
+padding:7px 14px;
+border-radius:10px;
+color:white;
+text-decoration:none;
+font-size:12px;
+border:1px solid rgba(255,255,255,0.25);
+}
+
+</style>
 </head>
 
 <body>
 
-<h1>Shop Acc</h1>
+<header>
 
-<p id="hello"></p>
-
-<div class="card">
-<h3>Acc Game 1</h3>
-<p>Giá: 50.000</p>
-<button>Mua</button>
+<div class="logo">
+<img src="logo.png">
+<span>THTSC SHOP</span>
 </div>
 
-<div class="card">
-<h3>Acc Game 2</h3>
-<p>Giá: 80.000</p>
-<button>Mua</button>
+<div class="balance">
+💰 Số dư: <span id="money">0</span>
 </div>
 
-<button onclick="logout()">Đăng xuất</button>
+</header>
+
+<div class="menu">
+
+<button onclick="openPage('vip.html')">Acc VIP</button>
+<button onclick="openPage('thuong.html')">Acc Thường</button>
+<button onclick="openPage('clone.html')">Acc Clone</button>
+
+</div>
+
+<div class="container">
+
+<div class="card" onclick="openPage('vip.html')">
+<img src="https://picsum.photos/400/200">
+<div class="card-body">
+<h3>Acc VIP</h3>
+<p>Tài khoản chất lượng cao, rank cao, nhiều vật phẩm.</p>
+</div>
+</div>
+
+<div class="card" onclick="openPage('thuong.html')">
+<img src="https://picsum.photos/401/200">
+<div class="card-body">
+<h3>Acc Thường</h3>
+<p>Tài khoản giá rẻ phù hợp chơi giải trí.</p>
+</div>
+</div>
+
+<div class="card" onclick="openPage('clone.html')">
+<img src="https://picsum.photos/402/200">
+<div class="card-body">
+<h3>Acc Clone</h3>
+<p>Tài khoản clone dùng phụ, giá cực rẻ.</p>
+</div>
+</div>
+
+</div>
+
+<div class="actions">
+
+<button onclick="napTien()">Nạp tiền</button>
+<button class="logout" onclick="logout()">Đăng xuất</button>
+
+</div>
+
+<footer>
+
+<p class="thank">Cảm ơn quý khách đã ghé thăm shop</p>
+
+<div class="footer-buttons">
+
+<a href="https://zalo.me/YOUR_ZALO" class="footer-btn">Zalo</a>
+<a href="https://facebook.com/YOUR_FACE" class="footer-btn">Facebook</a>
+<a href="https://zalo.me/g/YOUR_GROUP" class="footer-btn">Group Zalo</a>
+
+</div>
+
+</footer>
+
+<div id="popup" class="popup">
+<span id="popupIcon">⚠️</span>
+<span id="popupText"></span>
+</div>
 
 <script>
+
+const SERVER="https://shop-server-66d5.onrender.com"
 
 let user=localStorage.getItem("login")
 
 if(!user){
-location.href="index.html"
+location.href="login.html"
 }
 
-document.getElementById("hello").innerText="Xin chào "+user
+function popup(text,type){
+
+let p=document.getElementById("popup")
+let icon=document.getElementById("popupIcon")
+let txt=document.getElementById("popupText")
+
+txt.innerText=text
+
+p.classList.remove("success","error")
+
+if(type==="success"){
+icon.innerText="✅"
+p.classList.add("success")
+}else{
+icon.innerText="⚠️"
+p.classList.add("error")
+}
+
+p.classList.add("show")
+
+setTimeout(()=>{
+p.classList.remove("show")
+},3500)
+
+}
+
+function openPage(p){
+location.href=p
+}
 
 function logout(){
 localStorage.removeItem("login")
-location.href="index.html"
+location.href="login.html"
 }
+
+function napTien(){
+location.href="nap.html"
+}
+
+/* welcome */
+
+setTimeout(()=>{
+popup("Xin chào "+user+" • Chào mừng đến với shop","success")
+},600)
+
+/* load money */
+
+async function loadUser(){
+
+try{
+
+let res=await fetch(SERVER+"/user/"+user)
+
+let data=await res.json()
+
+if(data.status==="deleted"){
+localStorage.removeItem("login")
+location.href="login.html"
+return
+}
+
+if(data.status==="pass_changed"){
+localStorage.removeItem("login")
+location.href="login.html"
+return
+}
+
+document.getElementById("money").innerText=data.balance
+
+}catch{}
+
+}
+
+loadUser()
+
+/* auto refresh */
+
+setInterval(loadUser,5000)
 
 </script>
 
