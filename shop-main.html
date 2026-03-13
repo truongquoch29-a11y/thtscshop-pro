@@ -466,24 +466,39 @@ async function load(){
 
 try{
 
-let res=await fetch(SERVER+"/user/"+user)
+let res = await fetch(SERVER + "/user/" + user)
 
 if(!res.ok){
 throw new Error()
 }
 
-let data=await res.json()
+let data = await res.json()
 
 if(data.status==="deleted"){
 popup("Tài khoản không tồn tại","error")
 localStorage.removeItem("login")
+
 setTimeout(()=>{
 location.href="login.html"
 },1500)
+
 return
 }
 
-document.getElementById("money").innerText=
+if(data.kicked){
+
+localStorage.removeItem("login")
+
+popup("Bạn đã bị đăng xuất","error")
+
+setTimeout(()=>{
+location.href="login.html"
+},1200)
+
+return
+}
+
+document.getElementById("money").innerText =
 formatMoney(data.balance)
 
 }catch{
@@ -495,19 +510,6 @@ popup("Không kết nối được server","error")
 }
 
 load()
-  if(data.kicked){
-
-localStorage.removeItem("loginUser")
-localStorage.removeItem("loginPass")
-
-popup("Bạn đã bị đăng xuất","error")
-
-setTimeout(()=>{
-location.href="login.html"
-},1200)
-
-return
-  }
 setInterval(load,5000)
 
 </script>
