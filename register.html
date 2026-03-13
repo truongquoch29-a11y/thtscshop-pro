@@ -246,7 +246,7 @@ password:pass
 
 let data=await res.json()
 
-if(data.success){
+if(data.status==="success"){
 
 showPopup("Tạo tài khoản thành công","success")
 
@@ -254,11 +254,13 @@ setTimeout(()=>{
 location.href="login.html"
 },1500)
 
-}else{
+}else if(data.status==="exist"){
 
 showPopup("Tài khoản đã tồn tại","error")
 
-}
+}else{
+
+showPopup("Lỗi tạo tài khoản","error")
 
 }
 
