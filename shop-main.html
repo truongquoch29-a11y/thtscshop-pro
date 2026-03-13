@@ -152,13 +152,14 @@ color:black;
 .menu{
 position:fixed;
 top:0;
-right:-260px;
+right:-280px;
 width:260px;
 height:100%;
-background:#020617;
+background:linear-gradient(180deg,#0f172a,#020617);
 padding:20px;
-transition:.4s;
-z-index:999;
+transition:.35s;
+z-index:1001;
+box-shadow:-10px 0 30px rgba(0,0,0,.6);
 }
 
 .menu.show{
@@ -180,7 +181,23 @@ border-bottom:1px solid rgba(255,255,255,0.08);
 color:white;
 text-decoration:none;
 }
+.menu-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.45);
+opacity:0;
+pointer-events:none;
+transition:.3s;
+z-index:1000;
+}
 
+.menu-overlay.show{
+opacity:1;
+pointer-events:auto;
+}
 /* BANNER */
 
 .banner{
@@ -385,7 +402,7 @@ border-left:4px solid #22c55e;
 <body>
 
 <header>
-
+<div class="menu-overlay" onclick="toggleMenu()"></div>
 <div class="logo">
 <img src="images/logo-1.png">
 
@@ -539,7 +556,8 @@ return Number(n).toLocaleString("vi-VN")
 /* MENU */
 
 function toggleMenu(){
-document.getElementById("menu").classList.toggle("show")
+menu.classList.toggle("show")
+document.querySelector(".menu-overlay").classList.toggle("show")
 }
 
 function closePopup(){
