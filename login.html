@@ -63,10 +63,15 @@ padding-right:40px;
 position:absolute;
 right:10px;
 top:50%;
-transform:translateY(-50%);
+transform:translateY(-50%) scale(1);
 cursor:pointer;
-font-size:16px;
-opacity:0.8;
+font-size:18px;
+opacity:0.9;
+transition:0.25s;
+}
+
+.eye:active{
+transform:translateY(-50%) scale(0.85);
 }
 
 button{
@@ -225,11 +230,14 @@ p.classList.remove("show")
 function togglePass(){
 
 let pass=document.getElementById("pass")
+let eye=document.querySelector(".eye")
 
 if(pass.type==="password"){
 pass.type="text"
+eye.innerText="🙈"
 }else{
 pass.type="password"
+eye.innerText="👁"
 }
 
 }
