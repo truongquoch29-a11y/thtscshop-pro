@@ -20,7 +20,13 @@ background:#0f172a;
 color:white;
 font-family:Arial;
 min-height:100vh;
-padding-bottom:120px;
+padding-bottom:140px;
+transition:background 0.5s,color 0.5s;
+}
+
+body.light{
+background:#f1f5f9;
+color:#0f172a;
 }
 
 /* HEADER */
@@ -32,6 +38,11 @@ align-items:center;
 padding:15px 20px;
 background:#020617;
 border-bottom:1px solid rgba(255,255,255,0.1);
+transition:0.4s;
+}
+
+body.light header{
+background:white;
 }
 
 .logo{
@@ -54,6 +65,70 @@ background:#1e293b;
 padding:8px 14px;
 border-radius:20px;
 font-size:13px;
+transition:0.4s;
+}
+
+body.light .balance{
+background:#e2e8f0;
+}
+
+/* TOGGLE */
+
+.theme-btn{
+cursor:pointer;
+background:#1e293b;
+border:none;
+color:white;
+padding:8px 10px;
+border-radius:50%;
+font-size:16px;
+transition:0.4s;
+}
+
+body.light .theme-btn{
+background:#e2e8f0;
+color:black;
+}
+
+/* NOTICE */
+
+.notice{
+margin:18px;
+background:#1e293b;
+border-radius:14px;
+padding:14px;
+line-height:1.6;
+font-size:14px;
+transition:0.4s;
+}
+
+body.light .notice{
+background:white;
+}
+
+.notice h3{
+margin-bottom:8px;
+}
+
+/* MARQUEE */
+
+.marquee{
+background:#020617;
+padding:8px;
+font-size:13px;
+overflow:hidden;
+white-space:nowrap;
+}
+
+.marquee span{
+display:inline-block;
+padding-left:100%;
+animation:mar 18s linear infinite;
+}
+
+@keyframes mar{
+0%{transform:translateX(0)}
+100%{transform:translateX(-100%)}
 }
 
 /* GRID */
@@ -72,7 +147,11 @@ background:#1e293b;
 border-radius:14px;
 overflow:hidden;
 cursor:pointer;
-transition:0.3s;
+transition:0.35s;
+}
+
+body.light .card{
+background:white;
 }
 
 .card:hover{
@@ -114,6 +193,11 @@ border-radius:20px;
 cursor:pointer;
 background:#00b4ff;
 color:white;
+transition:0.3s;
+}
+
+.actions button:hover{
+transform:scale(1.05);
 }
 
 .logout{
@@ -125,7 +209,7 @@ background:#ef4444;
 .popup{
 position:fixed;
 left:50%;
-bottom:100px;
+bottom:110px;
 transform:translateX(-50%) translateY(40px);
 background:#111827;
 padding:14px 18px;
@@ -158,9 +242,16 @@ border-left:4px solid #ef4444;
 
 footer{
 position:fixed;
-bottom:15px;
-text-align:center;
+bottom:0;
 width:100%;
+background:#020617;
+padding:12px;
+text-align:center;
+transition:0.4s;
+}
+
+body.light footer{
+background:white;
 }
 
 .thank{
@@ -173,6 +264,7 @@ opacity:0.9;
 display:flex;
 justify-content:center;
 gap:10px;
+flex-wrap:wrap;
 }
 
 .footer-btn{
@@ -183,6 +275,16 @@ color:white;
 text-decoration:none;
 font-size:12px;
 border:1px solid rgba(255,255,255,0.25);
+transition:0.3s;
+}
+
+.footer-btn:hover{
+transform:scale(1.08);
+}
+
+body.light .footer-btn{
+color:black;
+border:1px solid #ccc;
 }
 
 </style>
@@ -194,21 +296,44 @@ border:1px solid rgba(255,255,255,0.25);
 <header>
 
 <div class="logo">
-<img src="logo.png">
+<img src="images-shopmain/logo.png">
 <span>THTSC SHOP</span>
 </div>
+
+<div style="display:flex;gap:10px;align-items:center">
+
+<button class="theme-btn" onclick="toggleTheme()">🌙</button>
 
 <div class="balance">
 💰 <span id="money">0</span>
 </div>
 
+</div>
+
 </header>
+
+
+<div class="marquee">
+<span>🔥 Shop đang có nhiều acc giá rẻ • Hỗ trợ 24/7 • Uy tín - Nhanh gọn • Chúc bạn mua acc vui vẻ 🔥</span>
+</div>
+
+
+<div class="notice">
+
+<h3>📢 Thông báo từ shop</h3>
+
+<p>🌐 Website: Shop THTSC</p>
+<p>☎ Hỗ trợ nhanh qua Zalo</p>
+<p>🚀 Tham gia group để nhận acc giá rẻ</p>
+<p>🔒 Uy tín - Nhanh gọn - Hỗ trợ 24/7</p>
+
+</div>
 
 
 <div class="container">
 
 <div class="card" onclick="go('vip.html')">
-<img src="https://picsum.photos/400/200">
+<img src="images-shopmain/vip.jpg">
 <div class="card-body">
 <h3>Acc VIP</h3>
 <p>Tài khoản chất lượng cao, nhiều vật phẩm.</p>
@@ -216,7 +341,7 @@ border:1px solid rgba(255,255,255,0.25);
 </div>
 
 <div class="card" onclick="go('thuong.html')">
-<img src="https://picsum.photos/401/200">
+<img src="images-shopmain/thuong.jpg">
 <div class="card-body">
 <h3>Acc Thường</h3>
 <p>Tài khoản giá rẻ để chơi giải trí.</p>
@@ -224,7 +349,7 @@ border:1px solid rgba(255,255,255,0.25);
 </div>
 
 <div class="card" onclick="go('clone.html')">
-<img src="https://picsum.photos/402/200">
+<img src="images-shopmain/clone.jpg">
 <div class="card-body">
 <h3>Acc Clone</h3>
 <p>Tài khoản clone giá rẻ.</p>
@@ -249,11 +374,11 @@ border:1px solid rgba(255,255,255,0.25);
 
 <div class="footer-buttons">
 
-<a href="https://zalo.me/YOUR_ZALO" class="footer-btn">Zalo</a>
+<a href="#" class="footer-btn">Zalo</a>
 
-<a href="https://facebook.com/YOUR_FACE" class="footer-btn">Facebook</a>
+<a href="#" class="footer-btn">Facebook</a>
 
-<a href="https://zalo.me/g/YOUR_GROUP" class="footer-btn">Group Zalo</a>
+<a href="#" class="footer-btn">Group Zalo</a>
 
 </div>
 
@@ -275,6 +400,28 @@ let user=localStorage.getItem("login")
 if(!user){
 location.href="login.html"
 }
+
+function formatMoney(n){
+return Number(n).toLocaleString("vi-VN")
+}
+
+/* THEME */
+
+function toggleTheme(){
+
+document.body.classList.toggle("light")
+
+let icon=document.querySelector(".theme-btn")
+
+if(document.body.classList.contains("light")){
+icon.innerText="☀️"
+}else{
+icon.innerText="🌙"
+}
+
+}
+
+/* POPUP */
 
 function popup(text,type){
 
@@ -302,10 +449,6 @@ p.classList.remove("show")
 
 }
 
-setTimeout(()=>{
-popup("Xin chào "+user+" • Chào mừng tới shop","success")
-},500)
-
 function go(p){
 location.href=p
 }
@@ -325,27 +468,23 @@ try{
 
 let res=await fetch(SERVER+"/user/"+user)
 
+if(!res.ok){
+throw new Error()
+}
+
 let data=await res.json()
 
 if(data.status==="deleted"){
+popup("Tài khoản không tồn tại","error")
 localStorage.removeItem("login")
-popup("Tài khoản đã bị xoá","error")
 setTimeout(()=>{
 location.href="login.html"
-},1200)
+},1500)
 return
 }
 
-if(data.status==="pass_changed"){
-localStorage.removeItem("login")
-popup("Mật khẩu đã thay đổi, vui lòng đăng nhập lại","error")
-setTimeout(()=>{
-location.href="login.html"
-},1200)
-return
-}
-
-document.getElementById("money").innerText=data.balance
+document.getElementById("money").innerText=
+formatMoney(data.balance)
 
 }catch{
 
@@ -356,7 +495,6 @@ popup("Không kết nối được server","error")
 }
 
 load()
-
 setInterval(load,5000)
 
 </script>
