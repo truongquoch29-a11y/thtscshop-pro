@@ -7,6 +7,24 @@
 <title>THTSC Shop</title>
 
 <style>
+  .logout-btn{
+display:block;
+margin-top:20px;
+background:linear-gradient(135deg,#ef4444,#dc2626);
+padding:12px;
+border-radius:12px;
+text-align:center;
+font-weight:600;
+color:white;
+box-shadow:0 6px 18px rgba(239,68,68,.35);
+transition:.25s;
+}
+
+.logout-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(239,68,68,.5);
+background:linear-gradient(135deg,#f87171,#ef4444);
+}
   .nap-card{
 display:flex;
 align-items:center;
@@ -506,7 +524,7 @@ border-left:4px solid #22c55e;
 <a href="#">👤 Thông tin tài khoản</a>
 <a href="#">☎️ Hỗ trợ liên hệ</a>
 
-<a href="#" onclick="logout()">🚪 Đăng xuất</a>
+<a href="#" class="logout-btn" onclick="logout()">🚪 Đăng xuất</a>
 
 </div>
 
