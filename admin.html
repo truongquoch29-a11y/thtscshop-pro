@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
+<title>Admin Control</title>
 
 <style>
 
@@ -11,50 +11,106 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:system-ui,Arial;
+font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
 background:#0f172a;
 color:white;
 height:100vh;
-display:flex;
-flex-direction:column;
+}
+
+/* LOGIN */
+
+.loginBox{
+width:340px;
+max-width:90%;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#020617;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 25px rgba(0,0,0,0.6);
+}
+
+.loginBox h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+.inputBox{
+position:relative;
+}
+
+.inputBox input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:6px;
+background:#1e293b;
+color:white;
+}
+
+.eye{
+position:absolute;
+right:10px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+}
+
+.loginBox button{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:6px;
+background:#3b82f6;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* PANEL */
+
+.panel{
+display:none;
+height:100vh;
 }
 
 /* HEADER */
 
 .header{
-height:60px;
+height:55px;
 display:flex;
 align-items:center;
 padding-left:20px;
 background:#020617;
-font-size:20px;
-font-weight:600;
 border-bottom:1px solid #1e293b;
+font-size:18px;
+font-weight:bold;
 }
 
 /* LAYOUT */
 
 .container{
-flex:1;
 display:flex;
-overflow:hidden;
+height:calc(100vh - 55px);
 }
 
-/* SIDEBAR */
+/* USER LIST */
 
 .sidebar{
 width:260px;
 background:#020617;
 border-right:1px solid #1e293b;
-overflow-y:auto;
+overflow:auto;
 }
 
-.sidebar h2{
+.sidebar h3{
 padding:15px;
-font-size:16px;
 border-bottom:1px solid #1e293b;
 }
 
@@ -69,9 +125,9 @@ transition:0.2s;
 background:#1e293b;
 }
 
-/* MAIN */
+/* DETAIL */
 
-.main{
+.detail{
 flex:1;
 display:flex;
 justify-content:center;
@@ -79,28 +135,25 @@ align-items:center;
 padding:20px;
 }
 
-/* CARD */
-
 .card{
 background:#020617;
-padding:30px;
+padding:25px;
 border-radius:10px;
 width:100%;
 max-width:420px;
 box-shadow:0 0 20px rgba(0,0,0,0.4);
 }
 
-.card h3{
+.card h2{
 margin-bottom:10px;
 }
 
 .balance{
-font-size:18px;
 margin-bottom:15px;
 color:#38bdf8;
 }
 
-input{
+.card input{
 width:100%;
 padding:10px;
 margin-top:10px;
@@ -110,15 +163,13 @@ background:#1e293b;
 color:white;
 }
 
-/* BUTTON */
-
-button{
+.card button{
 width:100%;
-padding:11px;
+padding:10px;
 margin-top:10px;
 border:none;
 border-radius:6px;
-font-weight:600;
+font-weight:bold;
 cursor:pointer;
 }
 
@@ -132,25 +183,6 @@ background:#f59e0b;
 
 .delete{
 background:#ef4444;
-}
-
-/* POPUP */
-
-.popup{
-position:fixed;
-top:20px;
-left:50%;
-transform:translateX(-50%);
-background:#020617;
-padding:12px 20px;
-border-radius:8px;
-border:1px solid #1e293b;
-opacity:0;
-transition:0.3s;
-}
-
-.popup.show{
-opacity:1;
 }
 
 /* MOBILE */
@@ -171,57 +203,94 @@ height:200px;
 </style>
 </head>
 
-
 <body>
+
+<div class="loginBox" id="loginBox">
+
+<h2>Admin Login</h2>
+
+<div class="inputBox">
+<input type="password" id="adminPass" placeholder="Nhập mật khẩu admin">
+<span class="eye" onclick="togglePass()">👁</span>
+</div>
+
+<button onclick="login()">Đăng nhập</button>
+
+</div>
+
+
+
+<div class="panel" id="panel">
 
 <div class="header">
 ADMIN DASHBOARD
 </div>
 
-
 <div class="container">
 
 <div class="sidebar">
 
-<h2>Danh sách user</h2>
+<h3>Danh sách user</h3>
 
-<div id="users"></div>
+<div id="userList"></div>
 
 </div>
 
 
-<div class="main">
+<div class="detail" id="detail">
 
-<div class="card" id="infoBox">
-
-<h3>Chọn user để quản lý</h3>
+<h2>Chọn user để xem thông tin</h2>
 
 </div>
 
 </div>
 
 </div>
-
-
-<div class="popup" id="popup"></div>
 
 
 <script>
 
-const SERVER="https://shop-server-66d5.onrender.com"
+const API="https://shop-server-66d5.onrender.com"
 
 
 
-function showPopup(text){
+function togglePass(){
 
-const p=document.getElementById("popup")
+const i=document.getElementById("adminPass")
 
-p.innerText=text
-p.classList.add("show")
+if(i.type==="password"){
+i.type="text"
+}else{
+i.type="password"
+}
 
-setTimeout(()=>{
-p.classList.remove("show")
-},2500)
+}
+
+
+
+// LOGIN
+
+async function login(){
+
+const pass=document.getElementById("adminPass").value
+
+const res=await fetch(API+"/admin/login",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({password:pass})
+})
+
+const data=await res.json()
+
+if(!data.success){
+alert("Sai mật khẩu admin")
+return
+}
+
+document.getElementById("loginBox").style.display="none"
+document.getElementById("panel").style.display="block"
+
+loadUsers()
 
 }
 
@@ -231,59 +300,63 @@ p.classList.remove("show")
 
 async function loadUsers(){
 
-let res=await fetch(SERVER+"/admin/users")
-let data=await res.json()
+const res=await fetch(API+"/admin/users")
+const users=await res.json()
 
-let box=document.getElementById("users")
+const list=document.getElementById("userList")
 
-box.innerHTML=""
+list.innerHTML=""
 
-data.forEach(u=>{
+users.forEach(u=>{
 
-let div=document.createElement("div")
+const div=document.createElement("div")
 div.className="user"
 div.innerText=u.username
 
-div.onclick=()=>loadUser(u.username)
+div.onclick=()=>showUser(u.username)
 
-box.appendChild(div)
+list.appendChild(div)
 
 })
 
 }
 
-loadUsers()
 
 
+// SHOW USER
 
-// LOAD USER
+async function showUser(username){
 
-async function loadUser(username){
+const res=await fetch(API+"/admin/user/"+username)
+const u=await res.json()
 
-let res=await fetch(SERVER+"/admin/user/"+username)
-let u=await res.json()
+const box=document.getElementById("detail")
 
-document.getElementById("infoBox").innerHTML=`
+box.innerHTML=`
 
-<h3>${u.username}</h3>
+<div class="card">
+
+<h2>${u.username}</h2>
 
 <div class="balance">Số dư: ${u.balance}</div>
 
-<input id="money" placeholder="Số tiền cộng">
+<input id="money" placeholder="Số tiền">
 
 <button class="add" onclick="addMoney('${u.username}')">
 Cộng tiền
 </button>
 
-<input id="pass" placeholder="Mật khẩu mới">
+<input id="newpass" placeholder="Mật khẩu mới">
 
 <button class="pass" onclick="changePass('${u.username}')">
 Đổi mật khẩu
 </button>
 
 <button class="delete" onclick="deleteUser('${u.username}')">
-Xoá tài khoản
+Xoá user
 </button>
+
+</div>
 
 `
 
@@ -295,17 +368,15 @@ Xoá tài khoản
 
 async function addMoney(username){
 
-let amount=document.getElementById("money").value
+const amount=document.getElementById("money").value
 
-await fetch(SERVER+"/admin/add-money",{
+await fetch(API+"/admin/add-money",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username,amount})
 })
 
-showPopup("Đã cộng tiền")
-
-loadUser(username)
+showUser(username)
 
 }
 
@@ -315,15 +386,15 @@ loadUser(username)
 
 async function changePass(username){
 
-let password=document.getElementById("pass").value
+const password=document.getElementById("newpass").value
 
-await fetch(SERVER+"/admin/change-pass",{
+await fetch(API+"/admin/change-pass",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username,password})
 })
 
-showPopup("Đã đổi mật khẩu")
+alert("Đã đổi mật khẩu")
 
 }
 
@@ -333,19 +404,17 @@ showPopup("Đã đổi mật khẩu")
 
 async function deleteUser(username){
 
-if(!confirm("Xác nhận xoá tài khoản?")) return
+if(!confirm("Xác nhận xoá user?")) return
 
-await fetch(SERVER+"/admin/delete-user",{
+await fetch(API+"/admin/delete-user",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username})
 })
 
-showPopup("Đã xoá user")
-
 loadUsers()
 
-document.getElementById("infoBox").innerHTML="<h3>User đã bị xoá</h3>"
+document.getElementById("detail").innerHTML="<h2>User đã bị xoá</h2>"
 
 }
 
