@@ -504,7 +504,9 @@ border-left:4px solid #22c55e;
 <a href="#">🧾 Lịch sử mua acc</a>
 <a href="#">💰 Lịch sử nạp tiền</a>
 <a href="#">👤 Thông tin tài khoản</a>
-<a href="#">☎ Hỗ trợ liên hệ</a>
+<a href="#">☎️ Hỗ trợ liên hệ</a>
+
+<a href="#" onclick="logout()">🚪 Đăng xuất</a>
 
 </div>
 
@@ -736,7 +738,13 @@ toast("Không kết nối được server","error")
 
 load()
 setInterval(load,5000)
+function logout(){
 
+localStorage.removeItem("login");
+
+window.location.href="login.html";
+
+}
 </script>
 
 </body>
