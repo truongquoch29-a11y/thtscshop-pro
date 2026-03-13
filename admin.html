@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Control</title>
+<title>Admin Panel</title>
 
 <style>
 
@@ -11,178 +11,224 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-background:#0f172a;
+background:linear-gradient(135deg,#020617,#020617,#000000);
 color:white;
 height:100vh;
+display:flex;
+flex-direction:column;
+animation:bgmove 8s infinite alternate;
 }
 
-/* LOGIN */
-
-.loginBox{
-width:340px;
-max-width:90%;
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:#020617;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 25px rgba(0,0,0,0.6);
-}
-
-.loginBox h2{
-text-align:center;
-margin-bottom:20px;
-}
-
-.inputBox{
-position:relative;
-}
-
-.inputBox input{
-width:100%;
-padding:12px;
-border:none;
-border-radius:6px;
-background:#1e293b;
-color:white;
-}
-
-.eye{
-position:absolute;
-right:10px;
-top:50%;
-transform:translateY(-50%);
-cursor:pointer;
-}
-
-.loginBox button{
-width:100%;
-padding:12px;
-margin-top:15px;
-border:none;
-border-radius:6px;
-background:#3b82f6;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-/* PANEL */
-
-.panel{
-display:none;
-height:100vh;
+@keyframes bgmove{
+0%{background-position:left}
+100%{background-position:right}
 }
 
 /* HEADER */
 
 .header{
-height:55px;
-display:flex;
-align-items:center;
-padding-left:20px;
-background:#020617;
-border-bottom:1px solid #1e293b;
-font-size:18px;
+padding:16px;
+font-size:22px;
 font-weight:bold;
+text-align:center;
+background:rgba(0,0,0,0.6);
+border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
-/* LAYOUT */
+/* LOGIN */
+
+.login-box{
+margin:auto;
+background:rgba(0,0,0,0.5);
+padding:30px;
+border-radius:12px;
+width:90%;
+max-width:360px;
+text-align:center;
+box-shadow:0 0 25px rgba(0,0,0,0.6);
+animation:fade 0.5s;
+}
+
+.login-box h2{
+margin-bottom:15px;
+}
+
+.password-box{
+position:relative;
+}
+
+.password-box input{
+width:100%;
+padding:11px 40px 11px 11px;
+border:none;
+border-radius:6px;
+outline:none;
+}
+
+.eye{
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:18px;
+transition:0.2s;
+}
+
+.eye:hover{
+transform:translateY(-50%) scale(1.2);
+}
+
+.login-btn{
+margin-top:15px;
+width:100%;
+padding:11px;
+border:none;
+border-radius:6px;
+background:#00aaff;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.25s;
+}
+
+.login-btn:hover{
+background:#0088cc;
+transform:scale(1.05);
+}
+
+/* PANEL */
 
 .container{
+flex:1;
 display:flex;
-height:calc(100vh - 55px);
+height:100%;
 }
 
-/* USER LIST */
-
-.sidebar{
-width:260px;
-background:#020617;
-border-right:1px solid #1e293b;
-overflow:auto;
+.user-list{
+width:35%;
+background:rgba(0,0,0,0.35);
+border-right:1px solid rgba(255,255,255,0.1);
+overflow-y:auto;
 }
 
-.sidebar h3{
-padding:15px;
-border-bottom:1px solid #1e293b;
+.user-list h2{
+padding:14px;
+border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 .user{
 padding:14px;
-border-bottom:1px solid #1e293b;
+border-bottom:1px solid rgba(255,255,255,0.05);
 cursor:pointer;
 transition:0.2s;
 }
 
 .user:hover{
-background:#1e293b;
+background:rgba(0,170,255,0.15);
+padding-left:20px;
 }
 
-/* DETAIL */
-
-.detail{
+.info{
 flex:1;
 display:flex;
 justify-content:center;
 align-items:center;
-padding:20px;
+padding:25px;
 }
 
-.card{
-background:#020617;
+.info-box{
+background:rgba(0,0,0,0.4);
 padding:25px;
 border-radius:10px;
-width:100%;
+width:90%;
 max-width:420px;
-box-shadow:0 0 20px rgba(0,0,0,0.4);
+text-align:center;
+box-shadow:0 0 25px rgba(0,0,0,0.5);
+animation:fade 0.5s;
 }
 
-.card h2{
-margin-bottom:10px;
+.data{
+margin:10px 0;
+font-size:16px;
 }
 
-.balance{
-margin-bottom:15px;
-color:#38bdf8;
-}
-
-.card input{
+input{
 width:100%;
 padding:10px;
 margin-top:10px;
 border:none;
 border-radius:6px;
-background:#1e293b;
-color:white;
+outline:none;
 }
 
-.card button{
-width:100%;
-padding:10px;
+button{
 margin-top:10px;
+padding:10px;
 border:none;
 border-radius:6px;
-font-weight:bold;
 cursor:pointer;
+font-weight:bold;
+transition:0.2s;
 }
 
 .add{
-background:#22c55e;
+background:#00aaff;
+color:white;
 }
 
-.pass{
-background:#f59e0b;
+.add:hover{
+background:#0088cc;
+transform:scale(1.05);
 }
 
 .delete{
-background:#ef4444;
+background:#ff3b3b;
+color:white;
+}
+
+.delete:hover{
+background:#cc2a2a;
+transform:scale(1.05);
+}
+
+/* POPUP */
+
+.popup{
+position:fixed;
+top:20px;
+left:50%;
+transform:translateX(-50%) translateY(-20px);
+background:#020617;
+padding:12px 20px;
+border-radius:8px;
+opacity:0;
+transition:0.35s;
+border:1px solid #1e293b;
+}
+
+.popup.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.success{
+border-color:#22c55e;
+}
+
+.error{
+border-color:#ef4444;
+}
+
+/* ANIMATION */
+
+@keyframes fade{
+from{opacity:0;transform:translateY(15px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 /* MOBILE */
@@ -193,7 +239,7 @@ background:#ef4444;
 flex-direction:column;
 }
 
-.sidebar{
+.user-list{
 width:100%;
 height:200px;
 }
@@ -205,76 +251,88 @@ height:200px;
 
 <body>
 
-<div class="loginBox" id="loginBox">
+<div class="header">
+ADMIN CONTROL PANEL
+</div>
+
+
+<div id="loginBox" class="login-box">
 
 <h2>Admin Login</h2>
 
-<div class="inputBox">
-<input type="password" id="adminPass" placeholder="Nhập mật khẩu admin">
-<span class="eye" onclick="togglePass()">👁</span>
+<div class="password-box">
+<input id="adminPass" type="password" placeholder="Nhập mật khẩu admin">
+<span class="eye" onclick="togglePass()" id="eye">👁️</span>
 </div>
 
-<button onclick="login()">Đăng nhập</button>
-
-</div>
-
-
-
-<div class="panel" id="panel">
-
-<div class="header">
-ADMIN DASHBOARD
-</div>
-
-<div class="container">
-
-<div class="sidebar">
-
-<h3>Danh sách user</h3>
-
-<div id="userList"></div>
+<button class="login-btn" onclick="login()">Đăng nhập</button>
 
 </div>
 
 
-<div class="detail" id="detail">
+<div class="container" id="panel" style="display:none">
 
-<h2>Chọn user để xem thông tin</h2>
+<div class="user-list">
 
+<h2>Danh sách user</h2>
+<div id="users"></div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-box" id="infoBox">
+<h3>Chọn user để xem</h3>
 </div>
 
 </div>
 
 </div>
+
+
+<div class="popup" id="popup"></div>
 
 
 <script>
 
-const API="https://shop-server-66d5.onrender.com"
+const SERVER="https://shop-server-66d5.onrender.com"
 
+function popup(text,type){
 
+const p=document.getElementById("popup")
+
+p.innerText=text
+p.className="popup show "+type
+
+setTimeout(()=>{
+p.className="popup"
+},2500)
+
+}
 
 function togglePass(){
 
-const i=document.getElementById("adminPass")
+const input=document.getElementById("adminPass")
+const eye=document.getElementById("eye")
 
-if(i.type==="password"){
-i.type="text"
+if(input.type==="password"){
+input.type="text"
+eye.innerText="🙈"
 }else{
-i.type="password"
+input.type="password"
+eye.innerText="👁️"
 }
 
 }
-
-
-
-// LOGIN
 
 async function login(){
 
 const pass=document.getElementById("adminPass").value
 
-const res=await fetch(API+"/admin/login",{
+try{
+
+const res=await fetch(SERVER+"/admin/login",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({password:pass})
@@ -283,72 +341,68 @@ body:JSON.stringify({password:pass})
 const data=await res.json()
 
 if(!data.success){
-alert("Sai mật khẩu admin")
+popup("Sai mật khẩu","error")
 return
 }
 
-document.getElementById("loginBox").style.display="none"
-document.getElementById("panel").style.display="block"
+popup("Đăng nhập thành công","success")
 
+setTimeout(()=>{
+document.getElementById("loginBox").style.display="none"
+document.getElementById("panel").style.display="flex"
 loadUsers()
+},800)
+
+}catch{
+
+popup("Không kết nối được server","error")
 
 }
 
-
-
-// LOAD USERS
+}
 
 async function loadUsers(){
 
-const res=await fetch(API+"/admin/users")
-const users=await res.json()
+let res=await fetch(SERVER+"/admin/users")
+let data=await res.json()
 
-const list=document.getElementById("userList")
+let box=document.getElementById("users")
+box.innerHTML=""
 
-list.innerHTML=""
+data.forEach(u=>{
 
-users.forEach(u=>{
-
-const div=document.createElement("div")
+let div=document.createElement("div")
 div.className="user"
 div.innerText=u.username
 
-div.onclick=()=>showUser(u.username)
+div.onclick=()=>loadUser(u.username)
 
-list.appendChild(div)
+box.appendChild(div)
 
 })
 
 }
 
+async function loadUser(username){
 
+let res=await fetch(SERVER+"/admin/user/"+username)
+let u=await res.json()
 
-// SHOW USER
+document.getElementById("infoBox").innerHTML=`
 
-async function showUser(username){
+<h3>${u.username}</h3>
 
-const res=await fetch(API+"/admin/user/"+username)
-const u=await res.json()
+<div class="data">Số dư: ${u.balance}</div>
 
-const box=document.getElementById("detail")
-
-box.innerHTML=`
-
-<div class="card">
-
-<h2>${u.username}</h2>
-
-<div class="balance">Số dư: ${u.balance}</div>
-
-<input id="money" placeholder="Số tiền">
+<input id="money" placeholder="Số tiền cần cộng">
 
 <button class="add" onclick="addMoney('${u.username}')">
 Cộng tiền
 </button>
 
-<input id="newpass" placeholder="Mật khẩu mới">
+<input id="pass" placeholder="Mật khẩu mới">
 
-<button class="pass" onclick="changePass('${u.username}')">
+<button class="add" onclick="changePass('${u.username}')">
 Đổi mật khẩu
 </button>
 
@@ -356,57 +410,41 @@ Cộng tiền
 Xoá user
 </button>
 
-</div>
-
 `
 
 }
 
-
-
-// ADD MONEY
-
 async function addMoney(username){
 
-const amount=document.getElementById("money").value
+let amount=document.getElementById("money").value
 
-await fetch(API+"/admin/add-money",{
+await fetch(SERVER+"/admin/add-money",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username,amount})
 })
 
-showUser(username)
+loadUser(username)
 
 }
 
-
-
-// CHANGE PASS
-
 async function changePass(username){
 
-const password=document.getElementById("newpass").value
+let password=document.getElementById("pass").value
 
-await fetch(API+"/admin/change-pass",{
+await fetch(SERVER+"/admin/change-pass",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username,password})
 })
 
-alert("Đã đổi mật khẩu")
+popup("Đã đổi mật khẩu","success")
 
 }
 
-
-
-// DELETE USER
-
 async function deleteUser(username){
 
-if(!confirm("Xác nhận xoá user?")) return
-
-await fetch(API+"/admin/delete-user",{
+await fetch(SERVER+"/admin/delete-user",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username})
@@ -414,7 +452,7 @@ body:JSON.stringify({username})
 
 loadUsers()
 
-document.getElementById("detail").innerHTML="<h2>User đã bị xoá</h2>"
+document.getElementById("infoBox").innerHTML="<h3>User đã xoá</h3>"
 
 }
 
