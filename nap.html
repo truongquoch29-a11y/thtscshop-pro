@@ -273,6 +273,8 @@ document.getElementById("box").innerHTML=`
 <p style="margin-top:10px">${Number(amount).toLocaleString("vi-VN")} VND</p>
 
 <button class="wait-btn" onclick="daNap()">Tôi đã nạp</button>
+<input type="file" id="bankImage" style="margin-top:15px">
+<button class="nap-btn" onclick="uploadImage()">Upload ảnh giao dịch</button>
 
 <button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
 
@@ -382,7 +384,53 @@ window.location.href="login.html"
 },1500)
 
 }
+async function uploadImage(){
 
+let file=document.getElementById("bankImage").files[0]
+
+if(!file){
+popup("Chọn ảnh giao dịch","#ef4444")
+return
+}
+
+let form=new FormData()
+
+form.append("image",file)
+
+try{
+
+let res=await fetch(SERVER+"/upload-deposit",{
+method:"POST",
+body:form
+})
+
+let data=await res.json()
+
+if(data.status==="success"){
+
+popup("Đã xác nhận giao dịch","#22c55e")
+
+setTimeout(()=>{
+window.location.href="shop-main.html"
+},1500)
+
+return
+}
+
+if(data.status==="timeout"){
+popup("Giao dịch quá thời gian","#ef4444")
+return
+}
+
+popup("Không nhận diện được giao dịch","#ef4444")
+
+}catch{
+
+popup("Lỗi upload","#ef4444")
+
+}
+
+}
 </script>
 
 </body>
