@@ -190,6 +190,28 @@ border-color:#22c55e;
 border-color:#ef4444;
 }
 
+.confirm-box{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:1000;
+}
+
+.confirm-inner{
+background:#020617;
+padding:25px;
+border-radius:10px;
+text-align:center;
+border:1px solid #1e293b;
+width:280px;
+}
+
 </style>
 </head>
 
@@ -229,11 +251,28 @@ ADMIN CONTROL PANEL
 
 <div class="popup" id="popup"></div>
 
+<div id="confirmBox" class="confirm-box">
+<div class="confirm-inner">
+<div style="margin-bottom:15px;font-size:16px">
+Xác nhận xoá user?
+</div>
+
+<button class="delete" onclick="confirmDelete()" style="margin-right:10px">
+Xoá
+</button>
+
+<button onclick="closeConfirm()">
+Huỷ
+</button>
+</div>
+</div>
+
 <script>
 
 const SERVER="https://shop-server-66d5.onrender.com"
 
 let currentUser=null
+let deleteTarget=null
 
 setInterval(()=>{
 if(currentUser){
@@ -458,17 +497,28 @@ popup("Đã kick user","success")
 
 }
 
-async function deleteUser(username){
+function deleteUser(username){
 
-if(!confirm("Xác nhận xoá user?")){
-return
+deleteTarget=username
+document.getElementById("confirmBox").style.display="flex"
+
 }
+
+function closeConfirm(){
+document.getElementById("confirmBox").style.display="none"
+}
+
+async function confirmDelete(){
+
+const username=deleteTarget
 
 await fetch(SERVER+"/admin/delete-user",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username})
 })
+
+closeConfirm()
 
 popup("Đã xoá user","success")
 
