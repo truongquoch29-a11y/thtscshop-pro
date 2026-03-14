@@ -367,6 +367,7 @@ Xoá
 return `
 <div>
 + ${money(d.amount)} đ | ${d.created_at}
+<br>Nội dung CK: <b>${d.content}</b>
 ${btn}
 </div>
 `
@@ -459,11 +460,17 @@ popup("Đã kick user","success")
 
 async function deleteUser(username){
 
+if(!confirm("Xác nhận xoá user?")){
+return
+}
+
 await fetch(SERVER+"/admin/delete-user",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({username})
 })
+
+popup("Đã xoá user","success")
 
 loadUsers()
 
