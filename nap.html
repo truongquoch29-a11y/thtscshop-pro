@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,9 +63,8 @@ line-height:1.6;
 
 .note{
 display:flex;
-align-items:flex-start;
 gap:8px;
-margin-bottom:8px;
+margin-bottom:6px;
 }
 
 main{
@@ -127,6 +125,14 @@ margin-right:auto;
 100%{transform:rotate(360deg)}
 }
 
+footer{
+background:#020617;
+border-top:1px solid #1e293b;
+padding:12px;
+text-align:center;
+font-size:14px;
+}
+
 #popup{
 position:fixed;
 top:20px;
@@ -150,6 +156,18 @@ transition:0.3s;
 <div class="title">Nạp tiền vào tài khoản</div>
 </header>
 
+<div class="note-box">
+
+<div class="note">
+⚠ Nếu bạn nạp bằng thẻ cào, hãy liên hệ admin 👉
+</div>
+
+<div class="note">
+📷 Lưu ý: nhớ chụp bill để upload ảnh giao dịch
+</div>
+
+</div>
+
 <main>
 
 <div class="box" id="box">
@@ -165,6 +183,10 @@ transition:0.3s;
 </div>
 
 </main>
+
+<footer>
+© THTSCShop
+</footer>
 
 <div id="popup"></div>
 
@@ -243,13 +265,13 @@ document.getElementById("box").innerHTML=`
 
 <p style="margin-top:10px">${Number(amount).toLocaleString("vi-VN")} VND</p>
 
-<button class="wait-btn" onclick="daNap()">Tôi đã nạp</button>
-
-<input type="file" id="bankImage" accept="image/*" onchange="previewImage()" style="margin-top:15px">
+<input type="file" id="bankImage" accept="image/*" onchange="previewImage();autoUpload()" style="margin-top:15px">
 
 <img id="preview" style="display:none;width:140px;margin-top:10px;border-radius:6px;border:1px solid #1e293b">
 
-<button class="nap-btn" onclick="uploadImage()">Upload ảnh giao dịch</button>
+<button class="wait-btn" onclick="daNap()">Tôi đã nạp</button>
+
+<button class="nap-btn" onclick="newDeposit()">Giao dịch mới</button>
 
 <button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
 
@@ -316,6 +338,27 @@ reader.readAsDataURL(file)
 
 }
 
+async function autoUpload(){
+
+let file=document.getElementById("bankImage").files[0]
+
+if(!file) return
+
+let form=new FormData()
+form.append("image",file)
+form.append("depositID",depositID)
+
+try{
+
+await fetch(SERVER+"/upload-deposit",{
+method:"POST",
+body:form
+})
+
+}catch{}
+
+}
+
 function daNap(){
 
 waiting=true
@@ -360,52 +403,36 @@ window.location.href="shop-main.html"
 
 }
 
+if(data.status==="reject"){
+
+waiting=false
+clearInterval(checkTimer)
+
+popup("Bot từ chối giao dịch","#ef4444")
+
+setTimeout(()=>{
+location.reload()
+},1500)
+
+}
+
 }catch{}
 
 }
 
-async function uploadImage(){
-
-let file=document.getElementById("bankImage").files[0]
-
-if(!file){
-popup("Chọn ảnh giao dịch","#ef4444")
-return
-}
-
-let form=new FormData()
-form.append("image",file)
-form.append("depositID",depositID)
-
-try{
-
-let res=await fetch(SERVER+"/upload-deposit",{
-method:"POST",
-body:form
-})
-
-let data=await res.json()
-
-if(data.status==="success"){
+function newDeposit(){
 
 localStorage.removeItem("deposit_id")
 localStorage.removeItem("deposit_amount")
 localStorage.removeItem("deposit_content")
 
-popup("Đã xác minh giao dịch","#22c55e")
+depositID=null
+depositAmount=0
+waiting=false
 
-setTimeout(()=>{
-window.location.href="shop-main.html"
-},1200)
+clearInterval(checkTimer)
 
-return
-}
-
-popup("Không nhận diện được giao dịch","#ef4444")
-
-}catch{
-popup("Lỗi upload","#ef4444")
-}
+location.reload()
 
 }
 
