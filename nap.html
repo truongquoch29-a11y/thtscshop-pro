@@ -69,10 +69,6 @@ gap:8px;
 margin-bottom:8px;
 }
 
-.note-icon{
-font-size:16px;
-}
-
 main{
 flex:1;
 display:flex;
@@ -88,12 +84,6 @@ border-radius:12px;
 width:320px;
 text-align:center;
 box-shadow:0 0 25px rgba(0,0,0,0.6);
-animation:fade 0.5s ease;
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:translateY(0)}
 }
 
 input{
@@ -116,20 +106,9 @@ cursor:pointer;
 font-weight:bold;
 }
 
-.nap-btn{
-background:#22c55e;
-color:white;
-}
-
-.wait-btn{
-background:#f59e0b;
-color:white;
-}
-
-.back-btn{
-background:#3b82f6;
-color:white;
-}
+.nap-btn{background:#22c55e;color:white;}
+.wait-btn{background:#f59e0b;color:white;}
+.back-btn{background:#3b82f6;color:white;}
 
 .loading{
 margin-top:15px;
@@ -146,43 +125,6 @@ margin-right:auto;
 @keyframes spin{
 0%{transform:rotate(0deg)}
 100%{transform:rotate(360deg)}
-}
-
-footer{
-width:100%;
-background:#0b1220;
-text-align:center;
-padding:20px;
-margin-top:80px;
-margin-bottom:40px;
-}
-
-.footer-text{
-font-size:14px;
-margin-bottom:10px;
-opacity:.9;
-}
-
-.footer-links{
-display:flex;
-justify-content:center;
-gap:12px;
-flex-wrap:wrap;
-}
-
-.footer-btn{
-background:rgba(255,255,255,0.12);
-border:1px solid rgba(255,255,255,0.25);
-padding:8px 16px;
-border-radius:12px;
-color:white;
-text-decoration:none;
-font-size:13px;
-transition:.25s;
-}
-
-.footer-btn:hover{
-transform:scale(1.08);
 }
 
 #popup{
@@ -208,22 +150,6 @@ transition:0.3s;
 <div class="title">Nạp tiền vào tài khoản</div>
 </header>
 
-<div class="note-box">
-
-<div class="note">
-<span class="note-icon">📸</span>
-<span>Lưu ý: chuyển khoản xong hãy <b>chụp bill giao dịch</b> để upload xác minh.</span>
-</div>
-
-<div class="note">
-<span class="note-icon">💬</span>
-<span>Nếu bạn không có tài khoản ngân hàng, hãy liên hệ admin để nạp tiền 👉 
-<a href="#" style="color:#22c55e;text-decoration:none;font-weight:bold">Ấn vào đây</a>
-</span>
-</div>
-
-</div>
-
 <main>
 
 <div class="box" id="box">
@@ -240,20 +166,6 @@ transition:0.3s;
 
 </main>
 
-<footer>
-
-<div class="footer-text">
-Cảm ơn quý khách đã ghé thăm shop
-</div>
-
-<div class="footer-links">
-<a href="#" class="footer-btn">Zalo</a>
-<a href="#" class="footer-btn">Facebook</a>
-<a href="#" class="footer-btn">Group Zalo</a>
-</div>
-
-</footer>
-
 <div id="popup"></div>
 
 <script>
@@ -263,6 +175,7 @@ const SERVER="https://shop-server-66d5.onrender.com"
 let depositID=null
 let depositAmount=0
 let waiting=false
+let checkTimer=null
 
 function popup(text,color){
 
@@ -295,8 +208,6 @@ input.value=Number(value).toLocaleString("vi-VN")
 
 }
 
-/* KHÔI PHỤC QR SAU KHI RELOAD */
-
 function restoreDeposit(){
 
 let id=localStorage.getItem("deposit_id")
@@ -307,6 +218,12 @@ if(!id || !amount || !content) return
 
 depositID=id
 depositAmount=parseInt(amount)
+
+showQR(amount,content)
+
+}
+
+function showQR(amount,content){
 
 let bank="VCB"
 let account="9702093263"
@@ -367,52 +284,17 @@ body:JSON.stringify({username,amount})
 
 let data=await res.json()
 
-if(data.status!=="success"){
-popup("Không tạo được giao dịch","#ef4444")
-return
-}
-
 depositID=data.id
 depositAmount=amount
-
-/* LƯU QR VÀO LOCALSTORAGE */
 
 localStorage.setItem("deposit_id",depositID)
 localStorage.setItem("deposit_amount",amount)
 localStorage.setItem("deposit_content",data.content)
 
-let bank="VCB"
-let account="9702093263"
-let name="TRUONG QUOC HUY"
-
-let qr=`https://img.vietqr.io/image/${bank}-${account}-compact.png?amount=${amount}&addInfo=${data.content}&accountName=${name}`
-
-document.getElementById("box").innerHTML=`
-
-<h3>Quét QR để chuyển khoản</h3>
-
-<img src="${qr}" style="width:220px;margin-top:15px;border-radius:10px">
-
-<p style="margin-top:15px">Nội dung:</p>
-
-<b>${data.content}</b>
-
-<p style="margin-top:10px">${Number(amount).toLocaleString("vi-VN")} VND</p>
-
-<button class="wait-btn" onclick="daNap()">Tôi đã nạp</button>
-
-<input type="file" id="bankImage" accept="image/*" onchange="previewImage()" style="margin-top:15px">
-
-<img id="preview" style="display:none;width:140px;margin-top:10px;border-radius:6px;border:1px solid #1e293b">
-
-<button class="nap-btn" onclick="uploadImage()">Upload ảnh giao dịch</button>
-
-<button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
-
-`
+showQR(amount,data.content)
 
 }catch{
-popup("Không kết nối được server","#ef4444")
+popup("Không kết nối server","#ef4444")
 }
 
 }
@@ -420,18 +302,14 @@ popup("Không kết nối được server","#ef4444")
 function previewImage(){
 
 let file=document.getElementById("bankImage").files[0]
-
 if(!file) return
 
 let reader=new FileReader()
 
 reader.onload=function(e){
-
 let img=document.getElementById("preview")
-
 img.src=e.target.result
 img.style.display="block"
-
 }
 
 reader.readAsDataURL(file)
@@ -444,15 +322,15 @@ waiting=true
 
 document.getElementById("box").innerHTML=`
 
-<h3>Đang chờ admin xác nhận</h3>
+<h3>Đang kiểm tra giao dịch</h3>
 
 <div class="loading"></div>
 
-<p style="margin-top:15px">Giao dịch đang được kiểm tra</p>
+<p style="margin-top:15px">Bot đang xác minh</p>
 
 `
 
-setInterval(checkDeposit,4000)
+checkTimer=setInterval(checkDeposit,4000)
 
 }
 
@@ -468,77 +346,21 @@ let data=await res.json()
 if(data.status==="success"){
 
 waiting=false
-
-/* XÓA QR SAU KHI HOÀN TẤT */
+clearInterval(checkTimer)
 
 localStorage.removeItem("deposit_id")
 localStorage.removeItem("deposit_amount")
 localStorage.removeItem("deposit_content")
 
-popup("Đã cộng "+depositAmount.toLocaleString("vi-VN")+"đ vào số dư","#22c55e")
+popup("Nạp tiền thành công","#22c55e")
 
 setTimeout(()=>{
 window.location.href="shop-main.html"
-},1500)
-
-}
-
-if(data.status==="deleted"){
-
-waiting=false
-
-localStorage.removeItem("deposit_id")
-localStorage.removeItem("deposit_amount")
-localStorage.removeItem("deposit_content")
-
-popup("Không chấp nhận giao dịch, hãy thử lại","#ef4444")
-
-setTimeout(()=>{
-window.location.reload()
-},2000)
+},1200)
 
 }
 
 }catch{}
-
-}
-
-setInterval(checkUser,5000)
-
-async function checkUser(){
-
-let username=localStorage.getItem("login")
-
-if(!username) return
-
-try{
-
-let res=await fetch(SERVER+"/user/"+username)
-let data=await res.json()
-
-if(data.status==="deleted"){
-logout()
-return
-}
-
-if(data.kicked===true){
-logout()
-return
-}
-
-}catch{}
-
-}
-
-function logout(){
-
-localStorage.removeItem("login")
-
-popup("Tài khoản đã bị đăng xuất","#ef4444")
-
-setTimeout(()=>{
-window.location.href="login.html"
-},1500)
 
 }
 
@@ -553,6 +375,7 @@ return
 
 let form=new FormData()
 form.append("image",file)
+form.append("depositID",depositID)
 
 try{
 
@@ -565,17 +388,16 @@ let data=await res.json()
 
 if(data.status==="success"){
 
-popup("Đã xác nhận giao dịch","#22c55e")
+localStorage.removeItem("deposit_id")
+localStorage.removeItem("deposit_amount")
+localStorage.removeItem("deposit_content")
+
+popup("Đã xác minh giao dịch","#22c55e")
 
 setTimeout(()=>{
 window.location.href="shop-main.html"
-},1500)
+},1200)
 
-return
-}
-
-if(data.status==="timeout"){
-popup("Giao dịch quá thời gian","#ef4444")
 return
 }
 
@@ -586,8 +408,6 @@ popup("Lỗi upload","#ef4444")
 }
 
 }
-
-/* TỰ KHÔI PHỤC QR */
 
 restoreDeposit()
 
