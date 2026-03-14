@@ -255,8 +255,22 @@ p.classList.remove("show")
 
 async function register(){
 
-let user=document.getElementById("user").value
-let pass=document.getElementById("pass").value
+let user=document.getElementById("user").value.trim()
+let pass=document.getElementById("pass").value.trim()
+
+/* điều kiện */
+
+if(user.length < 4){
+showPopup("Tài khoản phải từ 4 ký tự trở lên","error")
+return
+}
+
+if(pass.length < 6){
+showPopup("Mật khẩu phải từ 6 ký tự trở lên","error")
+return
+}
+
+/* gửi api */
 
 let res=await fetch("https://shop-server-66d5.onrender.com/register",{
 method:"POST",
