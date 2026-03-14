@@ -248,7 +248,43 @@ popup("Không kết nối được server","#ef4444")
 }
 
 }
+setInterval(checkUser,5000)
 
+async function checkUser(){
+
+let username=localStorage.getItem("username")
+
+if(!username) return
+
+try{
+
+let res=await fetch(SERVER+"/user/"+username)
+let data=await res.json()
+
+if(data.status==="deleted"){
+logout()
+return
+}
+
+if(data.kicked===true){
+logout()
+return
+}
+
+}catch{}
+
+}
+
+function logout(){
+
+localStorage.removeItem("username")
+popup("Tài khoản đã bị đăng xuất","#ef4444")
+
+setTimeout(()=>{
+window.location.href="login.html"
+},1500)
+
+}
 </script>
 
 </body>
