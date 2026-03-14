@@ -347,10 +347,15 @@ napHistory = deposits.map(d=>{
 
 let btn=""
 
-if(d.status!=="success"){
+if(d.status==="pending"){
 btn=`
-<button onclick="confirmNap('${d.content}','${u.username}')">Xác nhận</button>
-<button onclick="deleteNap('${d.content}')">Xoá</button>
+<button class="add" onclick="confirmNap('${d.content}','${u.username}')">
+Xác nhận
+</button>
+
+<button class="delete" onclick="deleteNap('${d.content}')">
+Xoá
+</button>
 `
 }
 
