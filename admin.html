@@ -349,11 +349,11 @@ let btn=""
 
 if(!d.status || d.status==="pending"){
 btn=`
-<button class="add" onclick="confirmNap('${d.content}','${u.username}')">
+<button class="add" onclick="confirmNap('${d.id}','${u.username}')">
 Xác nhận
 </button>
 
-<button class="delete" onclick="deleteNap('${d.content}','${u.username}')">
+<button class="delete" onclick="deleteNap('${d.id}','${u.username}')">
 Xoá
 </button>
 `
@@ -475,18 +475,18 @@ login()
 }
 
 }
-  async function confirmNap(content,username){
+  async function confirmNap(id,username){
 
 await fetch(SERVER+"/deposit/confirm",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content})
+body:JSON.stringify({id})
 })
 
 popup("Đã cộng tiền","success")
 loadUser(username)
 
-}
+  }
 
 async function deleteNap(content,username){
 
