@@ -347,13 +347,13 @@ napHistory = deposits.map(d=>{
 
 let btn=""
 
-if(d.status==="pending"){
+if(!d.status || d.status==="pending"){
 btn=`
 <button class="add" onclick="confirmNap('${d.content}','${u.username}')">
 Xác nhận
 </button>
 
-<button class="delete" onclick="deleteNap('${d.content}')">
+<button class="delete" onclick="deleteNap('${d.content}','${u.username}')">
 Xoá
 </button>
 `
@@ -488,7 +488,7 @@ loadUser(username)
 
 }
 
-async function deleteNap(content){
+async function deleteNap(content,username){
 
 await fetch(SERVER+"/delete-deposit",{
 method:"POST",
@@ -497,6 +497,7 @@ body:JSON.stringify({content})
 })
 
 popup("Đã xoá giao dịch","success")
+loadUser(username)
 
 }
 </script>
