@@ -1,40 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
+
 <head>
 <meta charset="UTF-8">
 <title>Nạp tiền</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:sans-serif;
+}
+
+body{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+background:linear-gradient(270deg,#0f172a,#1e293b,#0f172a);
+background-size:600% 600%;
+animation:bgmove 12s ease infinite;
+color:white;
+}
+
+@keyframes bgmove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* HEADER */
+
+header{
+text-align:center;
+padding:25px 0;
+}
+
+.logo{
+width:90px;
+height:90px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid white;
+box-shadow:0 0 15px rgba(255,255,255,0.4);
+}
+
+.title{
+margin-top:10px;
+font-size:22px;
+font-weight:bold;
+}
+
+/* MAIN */
+
+main{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.box{
+background:rgba(30,41,59,0.9);
+padding:35px;
+border-radius:12px;
+width:320px;
+text-align:center;
+box-shadow:0 0 25px rgba(0,0,0,0.6);
+animation:fade 0.6s ease;
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(20px)}
+to{opacity:1; transform:translateY(0)}
+}
+
+input{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:8px;
+font-size:16px;
+}
+
+button{
+margin-top:20px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.25s;
+}
+
+button:hover{
+transform:scale(1.05);
+box-shadow:0 0 10px #22c55e;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:15px;
+background:#020617;
+font-size:14px;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h2>Nạp tiền</h2>
+<header>
 
-<input id="money" placeholder="Số tiền">
+<img src="logo.png" class="logo">
 
-<br><br>
+<div class="title">Nạp tiền vào tài khoản</div>
 
-<button onclick="nap()">Tạo QR</button>
+</header>
 
-<br><br>
+<main>
 
-<div id="qr"></div>
+<div class="box">
+
+<h3>Nhập số tiền cần nạp</h3>
+
+<input id="amount" type="number" placeholder="Ví dụ: 50000">
+
+<button onclick="nap()">Nạp ngay</button>
+
+</div>
+
+</main>
+
+<footer>
+
+© THTSCSHOP
+
+</footer>
 
 <script>
 
-function nap(){
+const SERVER="https://shop-server-66d5.onrender.com"
 
-let user = localStorage.getItem("login")
+async function nap(){
 
-let money = document.getElementById("money").value
+let amount=document.getElementById("amount").value
 
-let qr =
-"https://img.vietqr.io/image/VCB-9702093263-compact.png?amount="
-+money+
-"&addInfo=NAP-"+user+
-"&accountName=TRUONG QUOC HUY"
+if(!amount || amount<1000){
+alert("Số tiền không hợp lệ")
+return
+}
 
-document.getElementById("qr").innerHTML =
-'<img src="'+qr+'" width="300">'
+let confirmNap=confirm("Xác nhận nạp "+amount+" VND ?")
+
+if(!confirmNap) return
+
+let username=localStorage.getItem("username")
+
+let res=await fetch(SERVER+"/create-payment",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+username:username,
+amount:amount
+})
+})
+
+let data=await res.json()
+
+if(data.checkoutUrl){
+window.location=data.checkoutUrl
+}
 
 }
 
