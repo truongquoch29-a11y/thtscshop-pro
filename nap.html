@@ -96,7 +96,7 @@ cursor:pointer;
 transition:0.25s;
 }
 
-/* NAP BUTTON */
+/* BUTTONS */
 
 .nap-btn{
 background:#22c55e;
@@ -108,16 +108,15 @@ transform:scale(1.05);
 box-shadow:0 0 10px #22c55e;
 }
 
-/* BACK BUTTON */
-
 .back-btn{
 background:#3b82f6;
 color:white;
 animation:pulse 1.5s infinite;
 }
 
-.back-btn:hover{
-transform:scale(1.05);
+.wait-btn{
+background:#f59e0b;
+color:white;
 }
 
 @keyframes pulse{
@@ -182,9 +181,7 @@ z-index:1000;
 </main>
 
 <footer>
-
 © THTSCSHOP
-
 </footer>
 
 <div id="popup"></div>
@@ -192,6 +189,9 @@ z-index:1000;
 <script>
 
 const SERVER="https://shop-server-66d5.onrender.com"
+
+let currentDeposit=null
+let waiting=false
 
 function popup(text,color){
 
@@ -247,9 +247,8 @@ popup("Không tạo được giao dịch","#ef4444")
 return
 }
 
-popup("Đã tạo giao dịch","#22c55e")
-
 let content=data.content
+currentDeposit=data.id
 
 let bank="VCB"
 let account="9702093263"
@@ -268,7 +267,9 @@ document.querySelector(".box").innerHTML=`
 
 <p style="margin-top:10px">${amount} VND</p>
 
-<button class="back-btn" onclick="goHome()" style="margin-top:20px">← Quay lại trang chủ</button>
+<button class="wait-btn" onclick="daNap()">Tôi đã nạp</button>
+
+<button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
 
 `
 
@@ -277,6 +278,49 @@ document.querySelector(".box").innerHTML=`
 popup("Không kết nối được server","#ef4444")
 
 }
+
+}
+
+function daNap(){
+
+waiting=true
+
+popup("Đang chờ admin xác nhận","#f59e0b")
+
+setInterval(checkDeposit,5000)
+
+}
+
+async function checkDeposit(){
+
+if(!waiting || !currentDeposit) return
+
+try{
+
+let res=await fetch(SERVER+"/deposit-status/"+currentDeposit)
+let data=await res.json()
+
+if(data.status==="approved"){
+
+popup("Nạp tiền thành công","#22c55e")
+
+setTimeout(()=>{
+window.location.href="shop-main.html"
+},2000)
+
+}
+
+if(data.status==="deleted"){
+
+popup("Giao dịch đã bị hủy","#ef4444")
+
+setTimeout(()=>{
+window.location.reload()
+},2000)
+
+}
+
+}catch{}
 
 }
 
