@@ -51,6 +51,28 @@ font-size:22px;
 font-weight:bold;
 }
 
+.note-box{
+margin:0 auto 20px auto;
+width:320px;
+background:rgba(15,23,42,0.6);
+border:1px solid #1e293b;
+border-radius:10px;
+padding:15px;
+font-size:14px;
+line-height:1.6;
+}
+
+.note{
+display:flex;
+align-items:flex-start;
+gap:8px;
+margin-bottom:8px;
+}
+
+.note-icon{
+font-size:16px;
+}
+
 main{
 flex:1;
 display:flex;
@@ -126,38 +148,41 @@ margin-right:auto;
 100%{transform:rotate(360deg)}
 }
 
-/* NOTE BOX */
-
-.note-box{
-margin-top:20px;
-width:320px;
-background:rgba(15,23,42,0.6);
-border:1px solid #1e293b;
-border-radius:10px;
-padding:15px;
-font-size:14px;
-line-height:1.6;
-}
-
-.note{
-display:flex;
-align-items:flex-start;
-gap:8px;
-margin-bottom:8px;
-}
-
-.note-icon{
-font-size:16px;
-}
-
-/* FOOTER */
-
 footer{
+width:100%;
+background:#0b1220;
 text-align:center;
-padding:18px;
-background:#020617;
-border-top:1px solid #1e293b;
+padding:20px;
+margin-top:80px;
+margin-bottom:40px;
+}
+
+.footer-text{
 font-size:14px;
+margin-bottom:10px;
+opacity:.9;
+}
+
+.footer-links{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.footer-btn{
+background:rgba(255,255,255,0.12);
+border:1px solid rgba(255,255,255,0.25);
+padding:8px 16px;
+border-radius:12px;
+color:white;
+text-decoration:none;
+font-size:13px;
+transition:.25s;
+}
+
+.footer-btn:hover{
+transform:scale(1.08);
 }
 
 #popup{
@@ -179,28 +204,9 @@ transition:0.3s;
 <body>
 
 <header>
-
 <img src="images/logo-1.png" class="logo">
-
 <div class="title">Nạp tiền vào tài khoản</div>
-
 </header>
-
-<main>
-
-<div class="box" id="box">
-
-<h3>Nhập số tiền cần nạp</h3>
-
-<input id="amount" type="text" placeholder="Ví dụ: 10.000" oninput="formatMoney(this)">
-
-<button class="nap-btn" onclick="nap()">Nạp ngay</button>
-
-<button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
-
-</div>
-
-<!-- NOTE -->
 
 <div class="note-box">
 
@@ -218,10 +224,34 @@ transition:0.3s;
 
 </div>
 
+<main>
+
+<div class="box" id="box">
+
+<h3>Nhập số tiền cần nạp</h3>
+
+<input id="amount" type="text" placeholder="Ví dụ: 10.000" oninput="formatMoney(this)">
+
+<button class="nap-btn" onclick="nap()">Nạp ngay</button>
+
+<button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
+
+</div>
+
 </main>
 
 <footer>
-© THTSCSHOP
+
+<div class="footer-text">
+Cảm ơn quý khách đã ghé thăm shop
+</div>
+
+<div class="footer-links">
+<a href="#" class="footer-btn">Zalo</a>
+<a href="#" class="footer-btn">Facebook</a>
+<a href="#" class="footer-btn">Group Zalo</a>
+</div>
+
 </footer>
 
 <div id="popup"></div>
@@ -319,7 +349,11 @@ document.getElementById("box").innerHTML=`
 <p style="margin-top:10px">${Number(amount).toLocaleString("vi-VN")} VND</p>
 
 <button class="wait-btn" onclick="daNap()">Tôi đã nạp</button>
-<input type="file" id="bankImage" style="margin-top:15px">
+
+<input type="file" id="bankImage" accept="image/*" onchange="previewImage()" style="margin-top:15px">
+
+<img id="preview" style="display:none;width:220px;margin-top:12px;border-radius:8px;border:1px solid #1e293b">
+
 <button class="nap-btn" onclick="uploadImage()">Upload ảnh giao dịch</button>
 
 <button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
@@ -327,10 +361,29 @@ document.getElementById("box").innerHTML=`
 `
 
 }catch{
-
 popup("Không kết nối được server","#ef4444")
+}
 
 }
+
+function previewImage(){
+
+let file=document.getElementById("bankImage").files[0]
+
+if(!file) return
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+let img=document.getElementById("preview")
+
+img.src=e.target.result
+img.style.display="block"
+
+}
+
+reader.readAsDataURL(file)
 
 }
 
@@ -357,8 +410,8 @@ async function checkDeposit(){
 if(!waiting) return
 
 try{
-let res=await fetch(SERVER+"/deposit-status/"+depositID+"?t="+Date.now())
 
+let res=await fetch(SERVER+"/deposit-status/"+depositID+"?t="+Date.now())
 let data=await res.json()
 
 if(data.status==="success"){
@@ -371,7 +424,7 @@ setTimeout(()=>{
 window.location.href="shop-main.html"
 },1500)
 
-  }
+}
 
 if(data.status==="deleted"){
 
@@ -389,8 +442,6 @@ window.location.reload()
 
 }
 
-/* KIỂM TRA USER */
-
 setInterval(checkUser,5000)
 
 async function checkUser(){
@@ -402,7 +453,6 @@ if(!username) return
 try{
 
 let res=await fetch(SERVER+"/user/"+username)
-
 let data=await res.json()
 
 if(data.status==="deleted"){
@@ -430,6 +480,7 @@ window.location.href="login.html"
 },1500)
 
 }
+
 async function uploadImage(){
 
 let file=document.getElementById("bankImage").files[0]
@@ -440,7 +491,6 @@ return
 }
 
 let form=new FormData()
-
 form.append("image",file)
 
 try{
@@ -471,12 +521,11 @@ return
 popup("Không nhận diện được giao dịch","#ef4444")
 
 }catch{
-
 popup("Lỗi upload","#ef4444")
-
 }
 
 }
+
 </script>
 
 </body>
