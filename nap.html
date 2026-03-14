@@ -56,6 +56,7 @@ flex:1;
 display:flex;
 justify-content:center;
 align-items:center;
+flex-direction:column;
 }
 
 .box{
@@ -125,10 +126,37 @@ margin-right:auto;
 100%{transform:rotate(360deg)}
 }
 
+/* NOTE BOX */
+
+.note-box{
+margin-top:20px;
+width:320px;
+background:rgba(15,23,42,0.6);
+border:1px solid #1e293b;
+border-radius:10px;
+padding:15px;
+font-size:14px;
+line-height:1.6;
+}
+
+.note{
+display:flex;
+align-items:flex-start;
+gap:8px;
+margin-bottom:8px;
+}
+
+.note-icon{
+font-size:16px;
+}
+
+/* FOOTER */
+
 footer{
 text-align:center;
-padding:15px;
+padding:18px;
 background:#020617;
+border-top:1px solid #1e293b;
 font-size:14px;
 }
 
@@ -169,6 +197,24 @@ transition:0.3s;
 <button class="nap-btn" onclick="nap()">Nạp ngay</button>
 
 <button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
+
+</div>
+
+<!-- NOTE -->
+
+<div class="note-box">
+
+<div class="note">
+<span class="note-icon">📸</span>
+<span>Lưu ý: chuyển khoản xong hãy <b>chụp bill giao dịch</b> để upload xác minh.</span>
+</div>
+
+<div class="note">
+<span class="note-icon">💬</span>
+<span>Nếu bạn không có tài khoản ngân hàng, hãy liên hệ admin để nạp tiền 👉 
+<a href="#" style="color:#22c55e;text-decoration:none;font-weight:bold">Ấn vào đây</a>
+</span>
+</div>
 
 </div>
 
