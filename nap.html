@@ -160,12 +160,11 @@ return
 }
 
 let confirmNap=confirm("Xác nhận nạp "+amount+" VND ?")
-
 if(!confirmNap) return
 
 let username=localStorage.getItem("username")
 
-let res=await fetch(SERVER+"/create-payment",{
+let res=await fetch(SERVER+"/deposit",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -178,9 +177,31 @@ amount:amount
 
 let data=await res.json()
 
-if(data.checkoutUrl){
-window.location=data.checkoutUrl
+if(data.status!=="success"){
+alert("Không tạo được giao dịch")
+return
 }
+
+let content=data.content
+
+let bank="MB"
+let account="123456789"
+let name="TRUONG QUOC HUY"
+
+let qr=`https://img.vietqr.io/image/${bank}-${account}-compact.png?amount=${amount}&addInfo=${content}&accountName=${name}`
+
+document.querySelector(".box").innerHTML=`
+
+<h3>Quét QR để chuyển khoản</h3>
+
+<img src="${qr}" style="width:220px;margin-top:15px;border-radius:10px">
+
+<p style="margin-top:15px">Nội dung:</p>
+<b>${content}</b>
+
+<p style="margin-top:10px">${amount} VND</p>
+
+`
 
 }
 
