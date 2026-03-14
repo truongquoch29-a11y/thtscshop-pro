@@ -316,13 +316,13 @@ let data=await res.json()
 
 if(data.status==="approved"){
 
-popup("Đã cộng "+depositAmount.toLocaleString("vi-VN")+" vào số dư","#22c55e")
-
 waiting=false
+
+popup("Đã cộng "+depositAmount.toLocaleString("vi-VN")+"đ vào số dư","#22c55e")
 
 setTimeout(()=>{
 window.location.href="shop-main.html"
-},2000)
+},1500)
 
 }
 
