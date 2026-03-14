@@ -307,32 +307,9 @@ popup("Không kết nối được server","error")
 }
 
 }
-
 async function loadUser(username){
 
 currentUser=username
-
-let res=await fetch(SERVER+"/admin/users")
-let data=await res.json()
-
-let box=document.getElementById("users")
-box.innerHTML=""
-
-data.forEach(u=>{
-
-let div=document.createElement("div")
-div.className="user"
-div.innerText=u.username
-
-div.onclick=()=>loadUser(u.username)
-
-box.appendChild(div)
-
-})
-
-}
-
-async function loadUser(username){
 
 let res=await fetch(SERVER+"/admin/user/"+username)
 let u=await res.json()
