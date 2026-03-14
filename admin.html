@@ -336,9 +336,22 @@ currentUser=username
 let res=await fetch(SERVER+"/admin/user/"+username)
 let u=await res.json()
 
-let napHistory=(u.nap_history||[]).map(i=>{
-return `<div>+ ${money(i.amount)} đ</div>`
+let napHistory="Đang tải..."
+
+try{
+
+let res2=await fetch(SERVER+"/deposit/"+username)
+let deposits=await res2.json()
+
+napHistory = deposits.map(d=>{
+return `<div>+ ${money(d.amount)} đ | ${d.created_at}</div>`
 }).join("") || "Không có"
+
+}catch{
+
+napHistory="Không tải được"
+
+}
 
 let buyHistory=(u.buy_history||[]).map(i=>{
 return `<div>- ${i.item} | ${money(i.price)} đ</div>`
