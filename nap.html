@@ -3,6 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nạp tiền</title>
 
 <style>
@@ -11,14 +12,14 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:sans-serif;
+font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
 min-height:100vh;
 display:flex;
 flex-direction:column;
-background:linear-gradient(270deg,#0f172a,#1e293b,#0f172a);
+background:linear-gradient(270deg,#020617,#0f172a,#020617);
 background-size:600% 600%;
 animation:bgmove 12s ease infinite;
 color:white;
@@ -29,8 +30,6 @@ color:white;
 50%{background-position:100% 50%}
 100%{background-position:0% 50%}
 }
-
-/* HEADER */
 
 header{
 text-align:center;
@@ -52,8 +51,6 @@ font-size:22px;
 font-weight:bold;
 }
 
-/* MAIN */
-
 main{
 flex:1;
 display:flex;
@@ -62,18 +59,18 @@ align-items:center;
 }
 
 .box{
-background:rgba(30,41,59,0.9);
+background:rgba(0,0,0,0.45);
 padding:35px;
 border-radius:12px;
 width:320px;
 text-align:center;
 box-shadow:0 0 25px rgba(0,0,0,0.6);
-animation:fade 0.6s ease;
+animation:fade 0.5s ease;
 }
 
 @keyframes fade{
-from{opacity:0; transform:translateY(20px)}
-to{opacity:1; transform:translateY(0)}
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 input{
@@ -86,32 +83,19 @@ font-size:16px;
 }
 
 button{
-margin-top:20px;
+margin-top:15px;
 width:100%;
 padding:12px;
 border:none;
 border-radius:8px;
 font-size:16px;
 cursor:pointer;
-transition:0.25s;
+font-weight:bold;
 }
-
-/* BUTTONS */
 
 .nap-btn{
 background:#22c55e;
 color:white;
-}
-
-.nap-btn:hover{
-transform:scale(1.05);
-box-shadow:0 0 10px #22c55e;
-}
-
-.back-btn{
-background:#3b82f6;
-color:white;
-animation:pulse 1.5s infinite;
 }
 
 .wait-btn{
@@ -119,13 +103,27 @@ background:#f59e0b;
 color:white;
 }
 
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.07)}
-100%{transform:scale(1)}
+.back-btn{
+background:#3b82f6;
+color:white;
 }
 
-/* FOOTER */
+.loading{
+margin-top:15px;
+border:4px solid rgba(255,255,255,0.1);
+border-top:4px solid white;
+border-radius:50%;
+width:35px;
+height:35px;
+animation:spin 1s linear infinite;
+margin-left:auto;
+margin-right:auto;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg)}
+100%{transform:rotate(360deg)}
+}
 
 footer{
 text-align:center;
@@ -133,8 +131,6 @@ padding:15px;
 background:#020617;
 font-size:14px;
 }
-
-/* POPUP */
 
 #popup{
 position:fixed;
@@ -147,11 +143,9 @@ border-radius:8px;
 border:1px solid #1e293b;
 opacity:0;
 transition:0.3s;
-z-index:1000;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -166,11 +160,11 @@ z-index:1000;
 
 <main>
 
-<div class="box">
+<div class="box" id="box">
 
 <h3>Nhập số tiền cần nạp</h3>
 
-<input id="amount" type="number" placeholder="Ví dụ: 50000">
+<input id="amount" type="text" placeholder="Ví dụ: 10.000" oninput="formatMoney(this)">
 
 <button class="nap-btn" onclick="nap()">Nạp ngay</button>
 
@@ -190,7 +184,8 @@ z-index:1000;
 
 const SERVER="https://shop-server-66d5.onrender.com"
 
-let currentDeposit=null
+let depositID=null
+let depositAmount=0
 let waiting=false
 
 function popup(text,color){
@@ -211,12 +206,26 @@ function goHome(){
 window.location.href="shop-main.html"
 }
 
+function formatMoney(input){
+
+let value=input.value.replace(/\D/g,"")
+
+if(!value){
+input.value=""
+return
+}
+
+input.value=Number(value).toLocaleString("vi-VN")
+
+}
+
 async function nap(){
 
-let amount=document.getElementById("amount").value
+let raw=document.getElementById("amount").value.replace(/\./g,"")
+let amount=parseInt(raw)
 
-if(!amount || amount<1000){
-popup("Số tiền không hợp lệ","#ef4444")
+if(!amount || amount<2000){
+popup("Nạp tối thiểu 2.000đ","#ef4444")
 return
 }
 
@@ -231,13 +240,8 @@ try{
 
 let res=await fetch(SERVER+"/deposit",{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-username:username,
-amount:amount
-})
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({username,amount})
 })
 
 let data=await res.json()
@@ -247,25 +251,26 @@ popup("Không tạo được giao dịch","#ef4444")
 return
 }
 
-let content=data.content
-currentDeposit=data.id
+depositID=data.id
+depositAmount=amount
 
 let bank="VCB"
 let account="9702093263"
 let name="TRUONG QUOC HUY"
 
-let qr=`https://img.vietqr.io/image/${bank}-${account}-compact.png?amount=${amount}&addInfo=${content}&accountName=${name}`
+let qr=`https://img.vietqr.io/image/${bank}-${account}-compact.png?amount=${amount}&addInfo=${data.content}&accountName=${name}`
 
-document.querySelector(".box").innerHTML=`
+document.getElementById("box").innerHTML=`
 
 <h3>Quét QR để chuyển khoản</h3>
 
 <img src="${qr}" style="width:220px;margin-top:15px;border-radius:10px">
 
 <p style="margin-top:15px">Nội dung:</p>
-<b>${content}</b>
 
-<p style="margin-top:10px">${amount} VND</p>
+<b>${data.content}</b>
+
+<p style="margin-top:10px">${Number(amount).toLocaleString("vi-VN")} VND</p>
 
 <button class="wait-btn" onclick="daNap()">Tôi đã nạp</button>
 
@@ -285,24 +290,35 @@ function daNap(){
 
 waiting=true
 
-popup("Đang chờ admin xác nhận","#f59e0b")
+document.getElementById("box").innerHTML=`
 
-setInterval(checkDeposit,5000)
+<h3>Đang chờ admin xác nhận</h3>
+
+<div class="loading"></div>
+
+<p style="margin-top:15px">Giao dịch đang được kiểm tra</p>
+
+`
+
+setInterval(checkDeposit,4000)
 
 }
 
 async function checkDeposit(){
 
-if(!waiting || !currentDeposit) return
+if(!waiting) return
 
 try{
 
-let res=await fetch(SERVER+"/deposit-status/"+currentDeposit)
+let res=await fetch(SERVER+"/deposit-status/"+depositID)
+
 let data=await res.json()
 
 if(data.status==="approved"){
 
-popup("Nạp tiền thành công","#22c55e")
+popup("Đã cộng "+depositAmount.toLocaleString("vi-VN")+" vào số dư","#22c55e")
+
+waiting=false
 
 setTimeout(()=>{
 window.location.href="shop-main.html"
@@ -312,7 +328,9 @@ window.location.href="shop-main.html"
 
 if(data.status==="deleted"){
 
-popup("Giao dịch đã bị hủy","#ef4444")
+waiting=false
+
+popup("Không chấp nhận giao dịch, hãy thử lại","#ef4444")
 
 setTimeout(()=>{
 window.location.reload()
@@ -324,7 +342,7 @@ window.location.reload()
 
 }
 
-/* CHECK USER */
+/* KIỂM TRA USER */
 
 setInterval(checkUser,5000)
 
@@ -337,6 +355,7 @@ if(!username) return
 try{
 
 let res=await fetch(SERVER+"/user/"+username)
+
 let data=await res.json()
 
 if(data.status==="deleted"){
