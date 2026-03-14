@@ -307,12 +307,27 @@ popup("Không kết nối được server","error")
 }
 
 }
-async function loadUser(username){
+async function loadUsers(){
 
-currentUser=username
+let res=await fetch(SERVER+"/admin/users")
+let data=await res.json()
 
-let res=await fetch(SERVER+"/admin/user/"+username)
-let u=await res.json()
+let box=document.getElementById("users")
+box.innerHTML=""
+
+data.forEach(u=>{
+
+let div=document.createElement("div")
+div.className="user"
+div.innerText=u.username
+
+div.onclick=()=>loadUser(u.username)
+
+box.appendChild(div)
+
+})
+
+}
 
 let napHistory=(u.nap_history||[]).map(i=>{
 return `<div>+ ${money(i.amount)} đ</div>`
