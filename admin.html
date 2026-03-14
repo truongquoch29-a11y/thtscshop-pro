@@ -329,6 +329,13 @@ box.appendChild(div)
 
 }
 
+async function loadUser(username){
+
+currentUser=username
+
+let res=await fetch(SERVER+"/admin/user/"+username)
+let u=await res.json()
+
 let napHistory=(u.nap_history||[]).map(i=>{
 return `<div>+ ${money(i.amount)} đ</div>`
 }).join("") || "Không có"
