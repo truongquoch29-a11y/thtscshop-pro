@@ -233,7 +233,6 @@ ADMIN CONTROL PANEL
 
 const SERVER="https://shop-server-66d5.onrender.com"
 
-
 let currentUser=null
 
 setInterval(()=>{
@@ -241,6 +240,7 @@ if(currentUser){
 loadUser(currentUser)
 }
 },5000)
+
 function money(n){
 return Number(n).toLocaleString("vi-VN")
 }
@@ -291,7 +291,9 @@ if(!data.success){
 popup("Sai mật khẩu","error")
 return
 }
+
 localStorage.setItem("adminPass",pass)
+
 popup("Đăng nhập thành công","success")
 
 setTimeout(()=>{
@@ -307,6 +309,7 @@ popup("Không kết nối được server","error")
 }
 
 }
+
 async function loadUsers(){
 
 let res=await fetch(SERVER+"/admin/users")
@@ -348,6 +351,7 @@ napHistory = deposits.map(d=>{
 let btn=""
 
 if(!d.status || d.status==="pending"){
+
 btn=`
 <button class="add" onclick="confirmNap('${d.content}','${u.username}')">
 Xác nhận
@@ -357,6 +361,7 @@ Xác nhận
 Xoá
 </button>
 `
+
 }
 
 return `
@@ -465,6 +470,7 @@ loadUsers()
 document.getElementById("infoBox").innerHTML="<h3>User đã xoá</h3>"
 
 }
+
 window.onload=()=>{
 
 let saved=localStorage.getItem("adminPass")
@@ -475,13 +481,20 @@ login()
 }
 
 }
-  async function confirmNap(content,username){
+
+async function confirmNap(content,username){
 
 await fetch(SERVER+"/deposit/confirm",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({content})
 })
+
+popup("Đã cộng tiền","success")
+loadUser(username)
+
+}
+
 async function deleteNap(content,username){
 
 await fetch(SERVER+"/delete-deposit",{
@@ -494,6 +507,7 @@ popup("Đã xoá giao dịch","success")
 loadUser(username)
 
 }
+
 </script>
 
 </body>
