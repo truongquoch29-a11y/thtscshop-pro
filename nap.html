@@ -91,16 +91,39 @@ width:100%;
 padding:12px;
 border:none;
 border-radius:8px;
-background:#22c55e;
-color:white;
 font-size:16px;
 cursor:pointer;
 transition:0.25s;
 }
 
-button:hover{
+/* NAP BUTTON */
+
+.nap-btn{
+background:#22c55e;
+color:white;
+}
+
+.nap-btn:hover{
 transform:scale(1.05);
 box-shadow:0 0 10px #22c55e;
+}
+
+/* BACK BUTTON */
+
+.back-btn{
+background:#3b82f6;
+color:white;
+animation:pulse 1.5s infinite;
+}
+
+.back-btn:hover{
+transform:scale(1.05);
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.07)}
+100%{transform:scale(1)}
 }
 
 /* FOOTER */
@@ -150,7 +173,9 @@ z-index:1000;
 
 <input id="amount" type="number" placeholder="Ví dụ: 50000">
 
-<button onclick="nap()">Nạp ngay</button>
+<button class="nap-btn" onclick="nap()">Nạp ngay</button>
+
+<button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
 
 </div>
 
@@ -182,6 +207,10 @@ p.style.opacity="0"
 
 }
 
+function goHome(){
+window.location.href="shop-main.html"
+}
+
 async function nap(){
 
 let amount=document.getElementById("amount").value
@@ -191,10 +220,10 @@ popup("Số tiền không hợp lệ","#ef4444")
 return
 }
 
-let username=localStorage.getItem("username")
+let username=localStorage.getItem("login")
 
 if(!username){
-popup("Chưa đăng nhập","#ef4444")
+window.location.href="login.html"
 return
 }
 
@@ -239,6 +268,8 @@ document.querySelector(".box").innerHTML=`
 
 <p style="margin-top:10px">${amount} VND</p>
 
+<button class="back-btn" onclick="goHome()" style="margin-top:20px">← Quay lại trang chủ</button>
+
 `
 
 }catch{
@@ -248,11 +279,14 @@ popup("Không kết nối được server","#ef4444")
 }
 
 }
+
+/* CHECK USER */
+
 setInterval(checkUser,5000)
 
 async function checkUser(){
 
-let username = localStorage.getItem("login")
+let username=localStorage.getItem("login")
 
 if(!username) return
 
@@ -277,7 +311,8 @@ return
 
 function logout(){
 
-localStorage.removeItem("username")
+localStorage.removeItem("login")
+
 popup("Tài khoản đã bị đăng xuất","#ef4444")
 
 setTimeout(()=>{
@@ -285,6 +320,7 @@ window.location.href="login.html"
 },1500)
 
 }
+
 </script>
 
 </body>
