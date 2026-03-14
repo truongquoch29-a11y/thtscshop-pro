@@ -344,7 +344,23 @@ let res2=await fetch(SERVER+"/deposit/"+username)
 let deposits=await res2.json()
 
 napHistory = deposits.map(d=>{
-return `<div>+ ${money(d.amount)} đ | ${d.created_at}</div>`
+
+let btn=""
+
+if(d.status!=="success"){
+btn=`
+<button onclick="confirmNap('${d.content}','${u.username}')">Xác nhận</button>
+<button onclick="deleteNap('${d.content}')">Xoá</button>
+`
+}
+
+return `
+<div>
++ ${money(d.amount)} đ | ${d.created_at}
+${btn}
+</div>
+`
+
 }).join("") || "Không có"
 
 }catch{
@@ -452,6 +468,30 @@ if(saved){
 document.getElementById("adminPass").value=saved
 login()
 }
+
+}
+  async function confirmNap(content,username){
+
+await fetch(SERVER+"/deposit/confirm",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({content})
+})
+
+popup("Đã cộng tiền","success")
+loadUser(username)
+
+}
+
+async function deleteNap(content){
+
+await fetch(SERVER+"/delete-deposit",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({content})
+})
+
+popup("Đã xoá giao dịch","success")
 
 }
 </script>
