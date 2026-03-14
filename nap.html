@@ -295,6 +295,51 @@ input.value=Number(value).toLocaleString("vi-VN")
 
 }
 
+/* KHÔI PHỤC QR SAU KHI RELOAD */
+
+function restoreDeposit(){
+
+let id=localStorage.getItem("deposit_id")
+let amount=localStorage.getItem("deposit_amount")
+let content=localStorage.getItem("deposit_content")
+
+if(!id || !amount || !content) return
+
+depositID=id
+depositAmount=parseInt(amount)
+
+let bank="VCB"
+let account="9702093263"
+let name="TRUONG QUOC HUY"
+
+let qr=`https://img.vietqr.io/image/${bank}-${account}-compact.png?amount=${amount}&addInfo=${content}&accountName=${name}`
+
+document.getElementById("box").innerHTML=`
+
+<h3>Quét QR để chuyển khoản</h3>
+
+<img src="${qr}" style="width:220px;margin-top:15px;border-radius:10px">
+
+<p style="margin-top:15px">Nội dung:</p>
+
+<b>${content}</b>
+
+<p style="margin-top:10px">${Number(amount).toLocaleString("vi-VN")} VND</p>
+
+<button class="wait-btn" onclick="daNap()">Tôi đã nạp</button>
+
+<input type="file" id="bankImage" accept="image/*" onchange="previewImage()" style="margin-top:15px">
+
+<img id="preview" style="display:none;width:140px;margin-top:10px;border-radius:6px;border:1px solid #1e293b">
+
+<button class="nap-btn" onclick="uploadImage()">Upload ảnh giao dịch</button>
+
+<button class="back-btn" onclick="goHome()">← Quay lại trang chủ</button>
+
+`
+
+}
+
 async function nap(){
 
 let raw=document.getElementById("amount").value.replace(/\./g,"")
@@ -330,6 +375,12 @@ return
 depositID=data.id
 depositAmount=amount
 
+/* LƯU QR VÀO LOCALSTORAGE */
+
+localStorage.setItem("deposit_id",depositID)
+localStorage.setItem("deposit_amount",amount)
+localStorage.setItem("deposit_content",data.content)
+
 let bank="VCB"
 let account="9702093263"
 let name="TRUONG QUOC HUY"
@@ -352,7 +403,7 @@ document.getElementById("box").innerHTML=`
 
 <input type="file" id="bankImage" accept="image/*" onchange="previewImage()" style="margin-top:15px">
 
-<img id="preview" style="display:none;width:220px;margin-top:12px;border-radius:8px;border:1px solid #1e293b">
+<img id="preview" style="display:none;width:140px;margin-top:10px;border-radius:6px;border:1px solid #1e293b">
 
 <button class="nap-btn" onclick="uploadImage()">Upload ảnh giao dịch</button>
 
@@ -418,6 +469,12 @@ if(data.status==="success"){
 
 waiting=false
 
+/* XÓA QR SAU KHI HOÀN TẤT */
+
+localStorage.removeItem("deposit_id")
+localStorage.removeItem("deposit_amount")
+localStorage.removeItem("deposit_content")
+
 popup("Đã cộng "+depositAmount.toLocaleString("vi-VN")+"đ vào số dư","#22c55e")
 
 setTimeout(()=>{
@@ -429,6 +486,10 @@ window.location.href="shop-main.html"
 if(data.status==="deleted"){
 
 waiting=false
+
+localStorage.removeItem("deposit_id")
+localStorage.removeItem("deposit_amount")
+localStorage.removeItem("deposit_content")
 
 popup("Không chấp nhận giao dịch, hãy thử lại","#ef4444")
 
@@ -525,6 +586,10 @@ popup("Lỗi upload","#ef4444")
 }
 
 }
+
+/* TỰ KHÔI PHỤC QR */
+
+restoreDeposit()
 
 </script>
 
