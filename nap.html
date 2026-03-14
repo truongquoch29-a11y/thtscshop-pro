@@ -314,7 +314,7 @@ let res=await fetch(SERVER+"/deposit-status/"+depositID)
 
 let data=await res.json()
 
-if(data.status==="approved"){
+if(data.status==="success"){
 
 waiting=false
 
@@ -324,7 +324,7 @@ setTimeout(()=>{
 window.location.href="shop-main.html"
 },1500)
 
-}
+  }
 
 if(data.status==="deleted"){
 
