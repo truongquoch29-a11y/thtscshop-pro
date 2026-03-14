@@ -232,7 +232,15 @@ ADMIN CONTROL PANEL
 <script>
 
 const SERVER="https://shop-server-66d5.onrender.com"
+const SERVER="https://shop-server-66d5.onrender.com"
 
+let currentUser=null
+
+setInterval(()=>{
+if(currentUser){
+loadUser(currentUser)
+}
+},5000)
 function money(n){
 return Number(n).toLocaleString("vi-VN")
 }
@@ -283,7 +291,7 @@ if(!data.success){
 popup("Sai mật khẩu","error")
 return
 }
-
+localStorage.setItem("adminPass",pass)
 popup("Đăng nhập thành công","success")
 
 setTimeout(()=>{
@@ -300,7 +308,9 @@ popup("Không kết nối được server","error")
 
 }
 
-async function loadUsers(){
+async function loadUser(username){
+
+currentUser=username
 
 let res=await fetch(SERVER+"/admin/users")
 let data=await res.json()
@@ -382,6 +392,11 @@ async function changePass(username){
 
 let password=document.getElementById("pass").value
 
+if(password.length < 6){
+popup("Mật khẩu phải từ 6 ký tự","error")
+return
+}
+
 await fetch(SERVER+"/admin/change-pass",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -417,7 +432,16 @@ loadUsers()
 document.getElementById("infoBox").innerHTML="<h3>User đã xoá</h3>"
 
 }
+window.onload=()=>{
 
+let saved=localStorage.getItem("adminPass")
+
+if(saved){
+document.getElementById("adminPass").value=saved
+login()
+}
+
+}
 </script>
 
 </body>
