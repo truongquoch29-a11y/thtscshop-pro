@@ -309,8 +309,7 @@ async function checkDeposit(){
 if(!waiting) return
 
 try{
-
-let res=await fetch(SERVER+"/deposit-status/"+depositID)
+let res=await fetch(SERVER+"/deposit-status/"+depositID+"?t="+Date.now())
 
 let data=await res.json()
 
